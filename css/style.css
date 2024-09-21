@@ -1,3 +1,4 @@
+/* General body styling */
 body {
     background-color: whitesmoke;
     color: #333;
@@ -11,18 +12,28 @@ h1 {
     padding: 10px 5px;
     text-align: center;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    animation: fadeIn 2s ease-in-out forwards;
+    opacity: 0; 
 }
 
-header .menu {
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+header {
+    display: flex;
     text-align: center;
+    justify-content: space-between;
     font-size: 1.2em;
-    padding: 10px;
+    padding: 20px;
 }
 
 header .menu a {
     margin: 0 15px;
     text-decoration: none;
-    color: #fff;
+    color:black;
     font-weight: bold;
     transition: color 0.3s;
 }
@@ -31,11 +42,26 @@ header .menu a:hover {
     color: greenyellow;
 }
 
+button#toggle-dark-mode {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: greenyellow;
+    border: none;
+    cursor: pointer;
+    color: black;
+}
+
+button#toggle-dark-mode:hover {
+    background-color: #a7c718;
+}
+
 .images img {
     border-radius: 8px;
     width: 50%; 
     height: auto;
-    transition: transform 0.3s ease-in-out;
+    /* transition: transform 0.3s ease-in-out; */
 }
 
 .images img:hover {
@@ -43,11 +69,28 @@ header .menu a:hover {
 }
 
 .interactive-img {
+    transition: transform 0.3s ease-in-out;
     cursor: pointer;
 }
 
+#content {
+    animation: slideIn 1s ease-in-out forwards;
+    opacity: 0;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
 .social-icons, .project-icons {
-    font-size: 3em;
+    font-size: 2em;
     display: flex;
     justify-content: center;
     margin: 20px;
@@ -63,13 +106,4 @@ footer {
 .dark-mode {
     background-color: #111;
     color: white;
-}
-
-button#toggle-dark-mode {
-    top: 10px;
-    right: 10px;
-    padding: 10px;
-    background-color: greenyellow;
-    border: none;
-    cursor: pointer;
 }
