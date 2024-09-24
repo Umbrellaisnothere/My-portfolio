@@ -10,7 +10,7 @@ body {
 }
 
 header {
-    display: flex;
+    display: relative;
     align-items: center;
     justify-content: space-between;
     background-color: black;
@@ -32,8 +32,8 @@ header .menu a:hover {
 }
 
 button#toggle-dark-mode {
-    position: relative;
-    margin-left: 70px;
+    position: absolute;
+    right: 15px;
     border: none;
     padding: 10px;
     background-color: whitesmoke;
