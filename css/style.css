@@ -61,6 +61,20 @@ h1:hover {
     box-shadow: 0 0 5px yellow, 0 0 25px yellow;
 }
 
+h2 {
+    display: flex;
+    justify-content: center;
+}
+
+p {
+    display: flex;
+    justify-content: center;
+}
+
+h2, p {
+    padding: 10px;
+}
+
 @keyframes fadeIn {
     to {
         opacity: 1;
@@ -68,7 +82,8 @@ h1:hover {
 }
 
 section {
-    margin: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
 }
 
 .images img {
@@ -106,6 +121,8 @@ section {
 footer {
     text-align: center;
     padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
     background-color: black;
     color: white;
 }
@@ -131,6 +148,18 @@ footer {
     color: white;
 }
 
+.dark-mode header {
+    background-color: #333;
+}
+
+.dark-mode footer {
+    background-color: #222;
+}
+
+.dark-mode .menu a:hover {
+    color: lightblue;
+}
+
 @media (max-width: 768px) {
     header {
         flex-direction: column;
@@ -139,6 +168,11 @@ footer {
 
     header .menu a {
         margin: 5px 0;
+    }
+
+    section {
+        margin: 10px;
+        max-width: 100%;
     }
 
     button#toggle-dark-mode {
@@ -150,8 +184,57 @@ footer {
         font-size: 1.5em;
     }
 
+    p {
+        font-size: 0.9em;
+        padding: 5px;
+    }
+
     .images img {
         width: 90%;
         max-width: 300px;
+    }
+}
+
+
+@media (max-width: 480px) {
+    header {
+        padding: 10px;
+    }
+
+    header .menu a {
+        font-size: 1em;
+        padding: 10px;
+    }
+
+    h1.center {
+        font-size: 1.2em;
+        padding: 8px;
+    }
+
+    h2 {
+        font-size: 1.4em;
+    }
+
+    p {
+        font-size: 0.8em;
+    }
+
+    section {
+        margin: 5px;
+    }
+
+    .images img {
+        width: 85%;
+        max-width: 250px;
+    }
+
+    .social-icons {
+        font-size: 1.5em;
+        margin: 15px;
+    }
+
+    footer {
+        font-size: 0.9em;
+        padding: 10px;
     }
 }
