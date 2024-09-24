@@ -66,11 +66,6 @@ h2 {
     justify-content: center;
 }
 
-p {
-    display: flex;
-    justify-content: center;
-}
-
 h2, p {
     padding: 10px;
 }
