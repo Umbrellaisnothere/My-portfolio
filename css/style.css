@@ -125,6 +125,7 @@ section {
 
 .social-icons a {
     margin: 0 15px;
+    font-size: 1.4em;
     color: white;
     transition: transform 0.3s ease-in-out;
 }
@@ -213,44 +214,60 @@ footer {
 
 
 @media (max-width: 320px) {
+    body {
+        font-size: 14px;
+    }
+
     header {
-        padding: 10px;
+        flex-direction: column;
+        padding: 8px;
+        text-align: center;
     }
 
     header .menu a {
-        font-size: 0.7em;
-        padding: 5px;
+        font-size: 0.8em;
+        padding: 4px;
     }
 
     h1.center {
         font-size: 1.2em;
-        padding: 8px;
+        padding: 6px;
+        margin: 15px 0;
     }
 
     h2 {
-        font-size: 1.4em;
+        font-size: 1.3em;
     }
 
     p {
-        font-size: 1em;
+        font-size: 0.9em;
+        padding: 4px;
+    }
+
+    button#toggle-dark-mode {
+        top: 8px;
+        right: 8px;
+        padding: 7px;
     }
 
     section {
         margin: 5px;
+        padding: 5px;
     }
 
     .images img {
-        width: 85%;
-        max-width: 250px;
+        width: 80%;
+        max-width: 230px;
+        margin: 10px auto;
     }
 
     .social-icons {
-        font-size: 1.5em;
-        margin: 15px;
+        font-size: 1.4em;
+        margin: 10px;
     }
 
     footer {
-        font-size: 0.9em;
-        padding: 10px;
+        font-size: 0.85em;
+        padding: 8px;
     }
 }
