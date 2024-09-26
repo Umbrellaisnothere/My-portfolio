@@ -7,53 +7,23 @@ body {
 
 * {
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
-html {
-    scroll-behavior: smooth;
-  }
-
-/*Content section*/
 #content {
     animation-delay: 4s;
-    animation: slideIn 1s ease-in-out forwards;
-    opacity: 0;
 }
 
-/* Hamburger menu */
-.hamburger {
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    cursor: pointer;
-    display: none;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background-color: black;
-      padding: 15px;
-      width: 100%;
-      font-size: 1.2em;
-      position: relative;
-  }
-
-  header nav {
+header {
     display: flex;
-    justify-content: center;
-    gap: 15px;
-  }
-
-  header nav.show {
-    display: block;
+    align-items: center;
+    justify-content: space-between;
+    background-color: black;
+    padding: 15px;
+    width: 100%;
+    font-size: 1.2em;
+    position: relative;
 }
-  
 
 header .menu a {
     margin: 0 15px;
@@ -100,6 +70,7 @@ h1:hover {
 
 h2 {
     text-decoration-line: underline;
+    -moz-text-decoration-line: line-through;
     font-size: 1.8em;
     display: flex;
     justify-content: center;
@@ -172,6 +143,11 @@ footer {
     color: white;
 }
 
+#content {
+    animation: slideIn 1s ease-in-out forwards;
+    opacity: 0;
+}
+
 @keyframes slideIn {
     0% {
         transform: translateY(20px);
@@ -201,43 +177,18 @@ footer {
 }
 
 @media (max-width: 768px) {
-    .hamburger {
-        display: block;
-      }
-
-      header nav {
-        top: 60px;
-        right: 10px;
-        width: 200px;
-        display: none; /* Hide the regular Menu */
-        flex-direction: column;
-        position: absolute;
-        background-color: black;
-        padding: 10px;
-        border-radius: 5px;
-      }
-    
-      header nav a {
-        margin: 10px 0;
-        color: white;
-      }
-    
-      header nav.show {
-        display: flex; /* Shows the Menu when the hamburger is clicked */
-      }
-
     header {
         flex-direction: column;
         text-align: center;
     }
 
+    header .menu a {
+        margin: 5px 0;
+    }
+
     section {
         margin: 10px;
         max-width: 100%;
-    }
-
-    header .menu a {
-        margin: 5px 0;
     }
 
     button#toggle-dark-mode {
@@ -261,14 +212,14 @@ footer {
 }
 
 
-@media (max-width: 480px) {
+@media (max-width: 320px) {
     header {
         padding: 10px;
     }
 
     header .menu a {
-        font-size: 1em;
-        padding: 10px;
+        font-size: 0.7em;
+        padding: 5px;
     }
 
     h1.center {
@@ -281,7 +232,7 @@ footer {
     }
 
     p {
-        font-size: 0.8em;
+        font-size: 1em;
     }
 
     section {
