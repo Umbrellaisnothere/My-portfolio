@@ -3,7 +3,7 @@ const body = document.body;
 const content = document.getElementById("content");
 
 setTimeout(function() {
-    content.style.display = 'block';
+  content.classList.add('content-visible');
 }, 2000);
 
 

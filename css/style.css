@@ -11,7 +11,14 @@ body {
 }
 
 #content {
-    animation-delay: 4s;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 2s ease-in, visibility 2s ease-in;
+}
+
+.content-visible {
+    opacity: 1;
+    visibility: visible;
 }
 
 header {
@@ -220,8 +227,13 @@ footer {
 
     header {
         flex-direction: column;
-        padding: 8px;
-        text-align: center;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+    }
+    
+    header .menu {
+        margin-top: 10px;
     }
 
     header .menu a {
@@ -245,9 +257,9 @@ footer {
     }
 
     button#toggle-dark-mode {
-        top: 8px;
-        right: 8px;
-        padding: 7px;
+        top: 5px;
+        right: 5px;
+        padding: 5px;
     }
 
     section {
@@ -256,8 +268,8 @@ footer {
     }
 
     .images img {
-        width: 80%;
-        max-width: 230px;
+        width: 90%;
+        max-width: 260px;
         margin: 10px auto;
     }
 
