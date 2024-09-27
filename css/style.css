@@ -40,44 +40,57 @@ header .menu a:hover {
 
 button#toggle-dark-mode {
     position: absolute;
-    top: 9px;
+    top: 7.8px;
     right: 15px;
-    padding: 8px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     background-color: whitesmoke;
     color: black;
+    transition: all 0.3s ease-in-out;
     cursor: pointer;
 }
 
 button#toggle-dark-mode:hover {
+    color: rgb(255, 193, 7);
     background-color: grey;
+    transform: scale(1.05);
 }
 
 h1.message {
+    font-size: 3em;
+    font-weight: bold;
+    font-family: 'Times New Roman', serif;
+    text-transform: uppercase;
     text-shadow: 2px 2px 2px;
+    letter-spacing: 3px;
     color: rgb(24, 1, 1);
-    /* background-color: black; */
     text-align: center;
     margin: 20px 0;
-    font-family: 'Times New Roman', serif;
+    padding:100px 20px;
     animation: fadeIn 2s ease-in-out forwards;
     opacity: 0;
 }
 
-h1:hover {
-    box-shadow: 0 0 5px yellow, 0 0 25px yellow;
+h1.message:hover {
+    color: rgb(219, 169, 16);
+    transform: scale(1.05);
 }
 
 h2 {
+    color: rgb(34, 34, 34);
     text-decoration-line: underline;
     -moz-text-decoration-line: line-through;
-    font-size: 1.8em;
+    font-family: 'Arial', sans-serif;
+    font-size: 2em;
+    letter-spacing: 2px;
     display: flex;
+    text-transform: uppercase;
     justify-content: center;
 }
 
 p {
+    line-height: 1.6;
     position: relative;
     left: 40px;
     font-size: 1.2em;
@@ -90,6 +103,7 @@ h2, p {
 @keyframes fadeIn {
     to {
         opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -111,12 +125,13 @@ section {
     height: auto;
     border-radius: 9px;
     box-shadow: 3px 3px black;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     cursor: pointer;
 }
 
 .images img:hover {
     transform: scale(1.1); /* This is a zoom effect */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
 }
 
 #Contact a:hover{
@@ -125,6 +140,15 @@ section {
 
 #Contact a:visited{
     color: purple;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+    background-color: rgb(34, 34, 34);
+    color: white;
 }
 
 .social-icons, .project-icons {
@@ -145,19 +169,6 @@ section {
     color: purple
 }
 
-footer {
-    text-align: center;
-    padding: 20px;
-    margin: 0 auto;
-    max-width: 1200px;
-    background-color: black;
-    color: white;
-}
-
-/* #content {
-    animation: slideIn 1s ease-in-out forwards;
-    opacity: 0;
-} */
 
 @keyframes slideIn {
     0% {
@@ -238,6 +249,7 @@ footer {
 
 @media (max-width: 480px) {
     header {
+        flex-direction: column;
         padding: 10px;
     }
 
@@ -256,11 +268,12 @@ footer {
     }
 
     p {
-        font-size: 0.8em;
+        font-size: 0.75em;
+        padding: 5px;
     }
 
     section {
-        margin: 5px;
+        margin: 2px;
     }
 
     .images img {
@@ -274,8 +287,8 @@ footer {
     }
 
     footer {
-        font-size: 0.9em;
-        padding: 10px;
+        font-size: 0.8em;
+        padding: 8px;
     }
 }
 
