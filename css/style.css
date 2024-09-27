@@ -13,7 +13,7 @@ body {
 #content {
     opacity: 0;
     animation: slideIn 1s ease-in-out forwards;
-    animation-delay: 4s;
+    animation-delay: 2.3s;
 }
 
 header {
