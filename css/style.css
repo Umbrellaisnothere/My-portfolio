@@ -398,6 +398,11 @@ footer p{
         font-size: 1.8em;
     }
 
+    .projects-grid {
+        grid-template-columns: 1fr;
+        padding: 0 10px;
+    }
+
     footer {
         font-size: 1.2em;
         padding: 15px;
