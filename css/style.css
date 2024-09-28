@@ -78,6 +78,70 @@ h1.message:hover {
     transform: scale(1.05);
 }
 
+#name-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25vh;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    animation: gradientBackground 15s ease infinite;
+    text-align: center;
+}
+
+#name-title {
+    font-size: 4em;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    color: #fff;
+}
+
+.animated-letter {
+    opacity: 0;
+    transform: translateY(20px);
+    font-family: 'Times New Roman', serif;
+    animation: fadeInUp 1s ease-in-out forwards;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.animated-letter:hover {
+    color: #dce73c;
+    transform: scale(1.1);
+}
+
+.animated-letter:nth-child(1) { animation-delay: 0.1s; }
+.animated-letter:nth-child(2) { animation-delay: 0.2s; }
+.animated-letter:nth-child(3) { animation-delay: 0.3s; }
+.animated-letter:nth-child(4) { animation-delay: 0.4s; }
+.animated-letter:nth-child(5) { animation-delay: 0.5s; }
+.animated-letter:nth-child(6) { animation-delay: 0.6s; }
+.animated-letter:nth-child(7) { animation-delay: 0.7s; }
+.animated-letter:nth-child(8) { animation-delay: 0.8s; }
+.animated-letter:nth-child(9) { animation-delay: 0.9s; }
+.animated-letter:nth-child(10) { animation-delay: 1s; }
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes gradientBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 h2 {
     color: rgb(34, 34, 34);
     text-decoration-line: underline;
@@ -199,8 +263,16 @@ footer p{
     background-color: #333;
 }
 
+.dark-mode .menu a:hover {
+    color: lightblue;
+}
+
 .dark-mode h1.message {
     color: white;
+}
+
+.dark-mode #name-section {
+    background: linear-gradient(45deg, #72652a, #a07c6e, #a79e79, #787e6a);
 }
 
 .dark-mode h2{
@@ -211,9 +283,6 @@ footer p{
     background-color: #222;
 }
 
-.dark-mode .menu a:hover {
-    color: lightblue;
-}
 
 @media (max-width: 768px) {
     header {
