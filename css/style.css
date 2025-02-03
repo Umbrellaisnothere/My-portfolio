@@ -28,6 +28,7 @@ header {
     background-color: rgb(22, 20, 20);
     padding: 14px 20px;
     font-size: 1.2em;
+    flex:1 1 0;
     z-index: 1000;
 }
 
@@ -40,7 +41,7 @@ header .menu a {
 }
 
 header .menu a:hover {
-    color: rgb(185, 185, 4);
+    color: rgb(170, 170, 161);
 }
 
 button#toggle-dark-mode {
@@ -195,14 +196,6 @@ section {
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
 }
 
-#Contact a:hover{
-    color: rgb(118, 118, 240);
-}
-
-#Contact a:visited{
-    color: purple;
-}
-
 #projects-section {
     padding: 50px 0;
     background-color: #f9f9f9;
@@ -276,28 +269,67 @@ section {
     opacity: 0.9;
 }
 
-footer {
-    color: whitesmoke;
+#Contact-Socials {
     text-align: center;
-    padding: 20px;
-    margin: 0 auto;
-    max-width: 1200px;
-    background-color: rgb(22, 20, 20);
+    margin: 100px auto 40px;
+    max-width: 800px;
+  }
+  
+  #Contact-Socials h2 {
+    font-size: 2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  
+  .contact-details p {
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+  
+  .contact-details a {
+    text-decoration: none;
+    color: rgb(22, 20, 20);
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .contact-details a:hover {
+    color: rgb(118, 118, 240);
+  }
+  
+  .social-icons {
+    margin-top: 20px;
+  }
+  
+  .social-icons a {
+    margin: 0 10px;
+    font-size: 1.5em;
+    color: rgb(22, 20, 20);
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+  
+  .social-icons a:hover {
+    color: rgb(185, 185, 4);
+    transform: scale(1.2);
+  }
+
+#Contact a:visited{
+    color: purple;
 }
 
-footer p{
-    left: 9.5px;
+footer {
+    color: rgb(22, 20, 20);
+    text-align: center;
+    margin-top: 20%;
+    margin-right: 50%;
+    padding: 30px 20px;
 }
 
 #Socials h2 {
     color: white;
 }
 
-.social-icons, .project-icons {
-    font-size: 2em;
-    display: flex;
-    justify-content:center;
-    margin: 20px;
+footer p{
+    margin: 0;
 }
 
 .social-icons a {
@@ -309,6 +341,13 @@ footer p{
 .social-icons a:hover {
     transform: scale(1.2);
     color: purple
+}
+
+.social-icons, .project-icons {
+    font-size: 2em;
+    display: flex;
+    justify-content:center;
+    margin: 20px;
 }
 
 
@@ -450,8 +489,9 @@ footer p{
 
 @media (max-width: 320px) {
     header {
-        padding: 8px;
+        padding: 10px;
         width: 100%;
+        margin-right: 0;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -460,9 +500,9 @@ footer p{
 
     header h1 {
         font-size: 1em;
-        margin: 0;
+        /* margin: 0; */
         padding: 3px;
-        white-space: nowrap;
+        /* white-space: nowrap; */
     }
 
     header .menu a {
@@ -476,27 +516,29 @@ footer p{
         text-align: center;
         margin: 10px 0;
     }
+    
+    button#toggle-dark-mode {
+        display: none;
+        /* font-size: 0.8em;
+        padding: 5px;
+        margin-left: px; */ /* To use for later*/
+    }
 
     .animated-letter {
         display: inline-block;
-        margin: 0 2px; /* Reduces space between letters */
-        font-size: 1.1em; /* Adjusts size for small screens */
+        margin: 0 2px;
+        font-size: 1.2em;
     }
     
-    button#toggle-dark-mode {
-        font-size: 0.8em;
-        padding: 5px;
-        margin-left: 5px;
-    }
-
     h1.center {
         font-size: 1.1em;
         padding: 5px;
     }
-
-
+    
+    
     h2 {
         font-size: 1em;
+        margin-top: 20%;
     }
 
     p {
@@ -524,7 +566,8 @@ footer p{
 
     footer {
         font-size: 0.8em;
-        padding: 8px;
+        padding: 5px;
         text-align: center;
+        width: 300px;
     }
 }
