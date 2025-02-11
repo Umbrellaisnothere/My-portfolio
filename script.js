@@ -2,6 +2,10 @@ const toggleButton = document.getElementById('toggle-dark-mode');
 const body = document.body;
 const content = document.getElementById("content");
 
+const year= document.querySelector("#current-year")
+
+year.innerHTML = new Date().getFullYear()
+
 setTimeout(function() {
   content.classList.add('content-visible');
 }, 2000);
