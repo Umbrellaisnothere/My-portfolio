@@ -281,66 +281,72 @@ section {
     margin-bottom: 20px;
   }
   
-  .contact-details p {
-    font-size: 1.2em;
-    margin: 10px 0;
-  }
-  
-  .contact-details a {
-    text-decoration: none;
-    color: rgb(22, 20, 20);
-    transition: color 0.3s ease-in-out;
-  }
-  
-  .contact-details a:hover {
-    color: rgb(118, 118, 240);
-  }
-  
-  .social-icons {
-    margin-top: 20px;
-  }
-  
-  .social-icons a {
-    margin: 0 10px;
-    font-size: 1.5em;
-    color: rgb(22, 20, 20);
-    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
-  }
-  
-  .social-icons a:hover {
-    color: rgb(185, 185, 4);
-    transform: scale(1.2);
-  }
-
 #Contact a:visited{
     color: purple;
 }
 
 footer {
-    color: rgb(22, 20, 20);
-    text-align: center;
-    margin-top: 20%;
-    margin-right: 50%;
+    width: 100vw;
+    background-color: inherit;
+    color: black;
     padding: 30px 20px;
-}
-
-#Socials h2 {
-    color: white;
+    font-size: 1rem;
+    text-align: center;
+    position: relative;
 }
 
 footer p{
     margin: 0;
 }
 
-.social-icons a {
-    margin: 0 15px;
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer-text {
+    margin-top: 20px;
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+.contact-details p {
+    margin: 5px 0;
+    font-size: 1.1em;
+}
+
+.contact-details a {
+    color: #f8f8f8;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.contact-details a:hover {
+    color: #ffcc00;
+    text-decoration: underline;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+#Socials h2 {
     color: white;
-    transition: transform 0.3s ease-in-out;
+}
+
+
+.social-icons a {
+    color: #f8f8f8;
+    font-size: 1.5rem;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .social-icons a:hover {
+    color: #ffcc00;
     transform: scale(1.2);
-    color: purple
 }
 
 .social-icons, .project-icons {
