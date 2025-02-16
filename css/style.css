@@ -33,7 +33,8 @@ header {
 }
 
 header .menu a {
-    margin: 0 15px;
+    margin: 0 10px;
+    opacity: 0.85;
     color: whitesmoke;
     text-decoration: none;
     font-weight: bold;
@@ -41,22 +42,22 @@ header .menu a {
 }
 
 header .menu a:hover {
-    color: rgb(170, 170, 161);
+    opacity: 1;
 }
 
 button#toggle-dark-mode {
-    padding: 10px;
+    padding: 7px;
     border: none;
+    opacity: 0.95;
     border-radius: 50%;
-    background-color: whitesmoke;
     color: black;
     cursor: pointer;
+    background-color: whitesmoke;
     transition: all 0.3s ease-in-out;
 }
 
 button#toggle-dark-mode:hover {
-    color: rgb(255, 193, 7);
-    background-color: grey;
+    opacity: 1;
     transform: scale(1.05);
 }
 
@@ -72,11 +73,11 @@ h1.message {
     margin: 70px 0;
     padding:50px 20px;
     animation: fadeIn 2s ease-in-out forwards;
-    opacity: 0;
+    opacity: 0.75;
 }
 
 h1.message:hover {
-    color: rgb(219, 169, 16);
+    opacity: 1;
     transform: scale(1.05);
 }
 
@@ -269,47 +270,35 @@ section {
     opacity: 0.9;
 }
 
-#Contact-Socials {
-    text-align: center;
-    margin: 100px auto 40px;
-    max-width: 800px;
-  }
-  
-  #Contact-Socials h2 {
-    font-size: 2em;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-  
-#Contact a:visited{
-    color: purple;
-}
 
 footer {
-    width: 100vw;
-    background-color: inherit;
-    color: black;
-    padding: 30px 20px;
-    font-size: 1rem;
-    text-align: center;
-    position: relative;
-}
-
-footer p{
     margin: 0;
+    position: relative;
+    width: 100vw;
+    background-color: #222;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    padding: 20px 50px;
+    overflow: hidden;
+    /* background-color: inherit; */  
 }
 
 .footer-content {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px;
+    width: 100%;
+    max-width: 1200px;
+    flex-wrap: wrap;
+    gap: 20px; 
 }
 
-.footer-text {
-    margin-top: 20px;
-    font-size: 0.9em;
-    opacity: 0.8;
+footer p{
+    margin: 0;
 }
 
 .contact-details p {
@@ -318,14 +307,15 @@ footer p{
 }
 
 .contact-details a {
+    opacity: 0.75;
     color: #f8f8f8;
     text-decoration: none;
     transition: color 0.3s ease-in-out;
 }
 
 .contact-details a:hover {
-    color: #ffcc00;
-    text-decoration: underline;
+    opacity: 1;
+    transform: scale(1.2);
 }
 
 .social-icons {
@@ -333,19 +323,15 @@ footer p{
     gap: 15px;
 }
 
-#Socials h2 {
-    color: white;
-}
-
-
 .social-icons a {
     color: #f8f8f8;
     font-size: 1.5rem;
+    opacity: 0.75;
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .social-icons a:hover {
-    color: #ffcc00;
+    opacity: 1;
     transform: scale(1.2);
 }
 
@@ -356,6 +342,15 @@ footer p{
     margin: 20px;
 }
 
+.footer-text {
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    /* margin-top: 20px; */
+    font-size: 0.9em;
+    opacity: 0.8;
+}
 
 @keyframes slideIn {
     0% {
