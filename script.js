@@ -4,21 +4,25 @@ const content = document.getElementById("content");
 
 const year= document.querySelector("#current-year")
 
-year.innerHTML = new Date().getFullYear()
+if (year) {
+  year.textContent = new Date().getFullYear();
+}
 
-setTimeout(function() {
-  content.classList.add('content-visible');
-}, 2000);
+if (content) {
+  setTimeout(() => content.classList.add('content-visible'), 2000);
+}
 
 if (localStorage.getItem('darkMode') === 'enabled') {
   body.classList.add('dark-mode');
 }
 
-toggleButton.addEventListener('click', () => {
-  body.classList.toggle('dark-mode');
-  if (body.classList.contains('dark-mode')) {
-    localStorage.setItem('darkMode', 'enabled');
-  } else {
-    localStorage.setItem('darkMode', 'disabled');
-  }
-});
+if (toggleButton) {
+  toggleButton.setAttribute("aria-pressed", body.classList.contains("dark-mode"));
+
+  toggleButton.addEventListener('click', () => {
+    const isDarkMode = body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+
+    toggleButton.setAttribute("aria-pressed", isDarkMode);
+  });
+}

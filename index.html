@@ -71,35 +71,19 @@
       
     </section>
 
-    <section id="Contact">
-      <h2>Contact Me</h2>
+    <section class="contact-section" id="Contact">
+      <h2 class="section-title">Get in Touch</h2>
+
       <p>Have a question or want to work together? Send me a message!</p>
-      <form id="contact-form">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" rows="5" required></textarea>
-
-        <button type="submit">Send Message</button>
-      </form>
+      <form action="#" class="contact__form">
+                <input type="text" placeholder="Your Name" class="contact__input">
+                <input type="email" placeholder="Your Email" class="contact__input">
+                <textarea placeholder="Your Message" class="contact__input"></textarea>
+                <input type="submit" value="Send Message" class="contact__button button">
+            </form>
     </section>
 
-    <section id="footer">
-      <footer>
-        <div class="footer-content">
-          <div class="contact-details">
-            <p>Email: 
-              <a href="mailto:keithmurimi9@gmail.com" target="_blank">keithmurimi9@gmail.com</a>
-            </p>
-            <!-- <p>Moringa Email: 
-              <a href="mailto:keith.murimi@student.moringaschool.com" target="_blank">keith.murimi@student.moringaschool.com</a>
-            </p> -->
-          </div>
-          
+      <footer class="footer">
           <div class="social-icons">
             <a href="https://www.instagram.com/ohnoitsumbrella/" target="_blank" rel="noopener noreferrer" title="Instagram">
               <i class="fa-brands fa-instagram"></i>
@@ -108,10 +92,8 @@
               <i class="fa-brands fa-github"></i>
             </a>
           </div>
-        </div>
         <p class="footer-text">&copy; <span id="current-year"></span> Keith Murimi. All rights reserved.</p>
       </footer>
-    </section>
     
 
     <script src="script.js"></script>
