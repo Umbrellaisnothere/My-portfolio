@@ -273,22 +273,23 @@ section {
 
 .contact-section {
     text-align: center;
-    padding: 50px 20px;
-    background-color: #222;
-    color: whitesmoke;
+    padding: 60px 20px;
+    background-color: #181818;
+    color: #ffffff;
     border-top: 3px solid #e73c7e;
 }
 
 .contact-section h2 {
     font-size: 2.5em;
     margin-bottom: 15px;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .contact-section p {
     font-size: 1.2em;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 
