@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', () => {
 const toggleButton = document.getElementById('toggle-dark-mode');
 const body = document.body;
 const content = document.getElementById("content");
@@ -26,3 +27,4 @@ if (toggleButton) {
     toggleButton.setAttribute("aria-pressed", isDarkMode);
   });
 }
+});
