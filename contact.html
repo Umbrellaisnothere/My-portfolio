@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Keith</title>
+    <link rel="icon" href="images/unnamed.jpg">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <div class="logo"><span>Keith Murimi</span></div>
+        <div class="header-right">
+          <div class="social-icons">
+            <a href="https://www.instagram.com/ohnoitsumbrella/" target="_blank" rel="noopener noreferrer" title="Instagram">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://github.com/Umbrellaisnothere" target="_blank" rel="noopener noreferrer" title="GitHub">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/keith-murimi/" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+              <i class="fa-brands fa-linkedin"></i>
+            </a>
+          </div>
+          <button id="hamburger-menu" aria-label="Open menu" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <nav class="side-drawer" id="side-drawer">
+      <button id="close-drawer" aria-label="Close menu">&times;</button>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="#Projects">Projects</a>
+      <a href="contact.html">Contact Me</a>
+      <button id="drawer-toggle-dark-mode" aria-label="Toggle dark mode">
+        <i class="fa-solid fa-circle-half-stroke"></i>
+      </button>
+    </nav>
+    
+    <section id="hero-section">
+      <div class="hero-content">
+        <h1 class="hero-name">Get In Touch</h1>
+        <p class="hero-location">Let's Connect</p>
+        <p class="hero-description">Have a project in mind or just want to say hello? I'd love to hear from you!</p>
+      </div>
+    </section>
+
+    <section class="contact-section" id="Contact">
+      <h2 class="section-title">Send Message</h2>
+      <p class="contact-intro">Feel free to reach out for collaborations, questions, or just to connect!</p>
+      <form action="#" class="contact_form" id="contact-form">
+        <input type="text" placeholder="Your Name" class="contact_input" required>
+        <input type="email" placeholder="Your Email" class="contact_input" required>
+        <textarea placeholder="Your Message" class="contact_input" required></textarea>
+        <button type="submit" class="contact_button">Send Message</button>
+        <div id="contact-success" class="contact-success" style="display:none;">Thank you for reaching out! I'll get back to you soon.</div>
+      </form>
+    </section>
+
+    <footer class="footer">
+      <p class="footer-text">&copy; <span id="current-year"></span> Keith Murimi. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html> 
