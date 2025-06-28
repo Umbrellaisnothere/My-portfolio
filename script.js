@@ -73,11 +73,29 @@ const closeDrawer = document.getElementById('close-drawer');
 if (hamburger && drawer && closeDrawer) {
   hamburger.addEventListener('click', () => {
     drawer.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('drawer-open');
   });
   closeDrawer.addEventListener('click', () => {
     drawer.classList.remove('open');
-    document.body.style.overflow = '';
+    document.body.classList.remove('drawer-open');
+  });
+  
+  // close drawer when clicking on a link
+  drawer.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      document.body.classList.remove('drawer-open');
+    });
+  });
+  
+  // close drawer when clicking outside of it
+  document.addEventListener('click', (e) => {
+    if (drawer.classList.contains('open') && 
+        !drawer.contains(e.target) && 
+        !hamburger.contains(e.target)) {
+      drawer.classList.remove('open');
+      document.body.classList.remove('drawer-open');
+    }
   });
 }
 
@@ -171,4 +189,27 @@ async function fetchMediumPosts() {
 
 // load Medium posts when page loads
 fetchMediumPosts();
+
+// Back to top button functionality
+const backToTopButton = document.getElementById('back-to-top');
+
+if (backToTopButton) {
+  // show/hide button based on the scroll position
+  window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 300) {
+      backToTopButton.classList.add('visible');
+    } else {
+      backToTopButton.classList.remove('visible');
+    }
+  });
+
+  // smooth scroll to top when clicked
+  backToTopButton.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
+
 });
