@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - Keith</title>
-    <link rel="icon" href="images/unnamed.jpg">
+    <link rel="icon" href="css/images/unnamed.jpg">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   </head>
@@ -58,21 +58,155 @@
     <section id="hero-section">
       <div class="hero-content">
         <h1 class="hero-name">Get In Touch</h1>
-        <p class="hero-location">Let's Connect</p>
-        <p class="hero-description">Have a project in mind or just want to say hello? I'd love to hear from you!</p>
+        <p class="hero-location">Let's Start a Conversation</p>
+        <p class="hero-description">Ready to bring your ideas to life? Whether you have a project in mind, want to collaborate, or just want to say hello, I'm here to help!</p>
       </div>
     </section>
 
-    <section class="contact-section" id="Contact">
-      <h2 class="section-title">Send Message</h2>
-      <p class="contact-intro">Feel free to reach out for collaborations, questions, or just to connect!</p>
-      <form action="#" class="contact_form" id="contact-form">
-        <input type="text" placeholder="Your Name" class="contact_input" required>
-        <input type="email" placeholder="Your Email" class="contact_input" required>
-        <textarea placeholder="Your Message" class="contact_input" required></textarea>
-        <button type="submit" class="contact_button">Send Message</button>
-        <div id="contact-success" class="contact-success" style="display:none;">Thank you for reaching out! I'll get back to you soon.</div>
-      </form>
+    <section class="contact-methods-section">
+      <h2 class="section-title">Ways to Connect</h2>
+      <div class="contact-methods-grid">
+        <div class="contact-method-card">
+          <div class="method-icon-envelope">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+          <h3>Email</h3>
+          <p>Perfect for detailed project discussions and formal inquiries.</p>
+          <div class="method-details">
+            <span class="method-label">Response Time:</span>
+            <span class="method-value">Within 24 hours</span>
+          </div>
+        </div>
+        
+        <div class="contact-method-card">
+          <div class="method-icon-linkedin">
+            <i class="fa-brands fa-linkedin"></i>
+          </div>
+          <h3>LinkedIn</h3>
+          <p>Great for professional networking and collaboration opportunities.</p>
+          <div class="method-details">
+            <span class="method-label">Best for:</span>
+            <span class="method-value">Professional connections</span>
+          </div>
+        </div>
+        
+        <div class="contact-method-card">
+          <div class="method-icon-github">
+            <i class="fa-brands fa-github"></i>
+          </div>
+          <h3>GitHub</h3>
+          <p>Ideal for technical discussions and open-source collaborations.</p>
+          <div class="method-details">
+            <span class="method-label">Best for:</span>
+            <span class="method-value">Code reviews & projects</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-form-section">
+      <h2 class="section-title">Send Me a Message</h2>
+      <p class="contact-intro">Have a specific project in mind? Let's discuss how we can work together to bring your vision to life.</p>
+      
+      <div class="contact-form-container">
+        <form action="#" class="contact_form" id="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name" class="form-label">Full Name *</label>
+              <input type="text" id="name" placeholder="Your full name" class="contact_input" required>
+            </div>
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address *</label>
+              <input type="email" id="email" placeholder="your.email@example.com" class="contact_input" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="subject" class="form-label">Subject *</label>
+            <input type="text" id="subject" placeholder="What's this about?" class="contact_input" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="project-type" class="form-label">Project Type</label>
+            <select id="project-type" class="contact_input">
+              <option value="">Select project type (optional)</option>
+              <option value="web-development">Web Development</option>
+              <option value="mobile-app">Mobile Application</option>
+              <option value="ui-ux-design">UI/UX Design</option>
+              <option value="consultation">Consultation</option>
+              <option value="collaboration">Collaboration</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="message" class="form-label">Message *</label>
+            <textarea id="message" placeholder="Tell me about your project, timeline, and any specific requirements..." class="contact_input" rows="6" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" class="contact_checkbox" required>
+              <span class="checkmark"></span>
+              I agree to the privacy policy and consent to being contacted regarding my inquiry.
+            </label>
+          </div>
+          
+          <button type="submit" class="contact_button">
+            <i class="fa-solid fa-paper-plane"></i>
+            Send Message
+          </button>
+          
+          <div id="contact-success" class="contact-success" style="display:none;">
+            <i class="fa-solid fa-check-circle"></i>
+            <div class="success-content">
+              <h3>Message Sent Successfully!</h3>
+              <p>Thank you for reaching out. I'll get back to you within 24 hours.</p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="availability-section">
+      <h2 class="section-title">My Availability</h2>
+      <div class="availability-content">
+        <div class="availability-card">
+          <div class="availability-icon">
+            <i class="fa-solid fa-calendar-check"></i>
+          </div>
+          <h3>Currently Available</h3>
+          <p>I'm accepting new projects and collaborations. Let's discuss how we can work together!</p>
+          <div class="availability-status">
+            <span class="status-indicator available"></span>
+            <span class="status-text">Open for new opportunities</span>
+          </div>
+        </div>
+        
+        <div class="availability-details">
+          <div class="detail-item">
+            <i class="fa-solid fa-clock"></i>
+            <div>
+              <h4>Response Time</h4>
+              <p>Within 24 hours for all inquiries</p>
+            </div>
+          </div>
+          <div class="detail-item">
+            <i class="fa-solid fa-globe"></i>
+            <div>
+              <h4>Time Zone</h4>
+              <p>East Africa Time (EAT)</p>
+            </div>
+          </div>
+          <div class="detail-item">
+            <i class="fa-solid fa-language"></i>
+            <div>
+              <h4>Languages</h4>
+              <p>English (Fluent)</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <footer class="footer">
@@ -93,7 +227,7 @@
           <div class="footer-contact">
             <div class="contact-item">
               <i class="fa-solid fa-envelope"></i>
-              <span>keithmurimi9@gmail.com</span>
+              <span>Available via contact form</span>
             </div>
             <div class="contact-item">
               <i class="fa-solid fa-code"></i>

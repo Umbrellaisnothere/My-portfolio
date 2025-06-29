@@ -21,7 +21,6 @@ function setToggleButtonState(isDark) {
       <span class="toggle-slider">
         <span class="toggle-icon">
           <i class="fa-solid fa-moon"></i>
-          <i class="fa-solid fa-sun"></i>
         </span>
       </span>`;
     toggleButton.innerHTML = iconHTML;
@@ -29,6 +28,11 @@ function setToggleButtonState(isDark) {
       toggleButton.classList.remove('sun');
     } else {
       toggleButton.classList.add('sun');
+      // Change the icon to sun when in light mode
+      const iconElement = toggleButton.querySelector('.toggle-icon i');
+      if (iconElement) {
+        iconElement.className = 'fa-solid fa-sun';
+      }
     }
   }
   if (drawerToggle) {
@@ -99,19 +103,79 @@ if (hamburger && drawer && closeDrawer) {
   });
 }
 
+// Enhanced Contact Form
 const contactForm = document.getElementById('contact-form');
 const contactSuccess = document.getElementById('contact-success');
 if (contactForm && contactSuccess) {
   contactForm.addEventListener('submit', function(e) {
     e.preventDefault();
-    contactForm.querySelectorAll('input, textarea, button').forEach(el => {
+    
+    // Get form data
+    const formData = new FormData(contactForm);
+    const name = formData.get('name') || document.getElementById('name')?.value;
+    const email = formData.get('email') || document.getElementById('email')?.value;
+    const subject = formData.get('subject') || document.getElementById('subject')?.value;
+    const message = formData.get('message') || document.getElementById('message')?.value;
+    
+    // Basic validation
+    if (!name || !email || !subject || !message) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+    
+    // Hide form and show success message
+    contactForm.querySelectorAll('input, textarea, select, button').forEach(el => {
       if (el !== contactSuccess) el.style.display = 'none';
     });
-    contactSuccess.style.display = 'block';
+    
+    contactSuccess.style.display = 'flex';
     contactSuccess.style.opacity = 0;
     setTimeout(() => { contactSuccess.style.opacity = 1; }, 50);
+    
+    // Reset form after 5 seconds
+    setTimeout(() => {
+      contactForm.reset();
+      contactForm.querySelectorAll('input, textarea, select, button').forEach(el => {
+        if (el !== contactSuccess) el.style.display = '';
+      });
+      contactSuccess.style.display = 'none';
+    }, 5000);
   });
 }
+
+// FAQ Accordion Functionality
+const faqItems = document.querySelectorAll('.faq-item');
+faqItems.forEach(item => {
+  const question = item.querySelector('.faq-question');
+  const answer = item.querySelector('.faq-answer');
+  
+  if (question && answer) {
+    question.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+      
+      // Close all other FAQ items
+      faqItems.forEach(otherItem => {
+        if (otherItem !== item) {
+          otherItem.classList.remove('active');
+        }
+      });
+      
+      // Toggle current item
+      if (isActive) {
+        item.classList.remove('active');
+      } else {
+        item.classList.add('active');
+      }
+    });
+  }
+});
 
 async function fetchMediumPosts() {
   const mediumPostsContainer = document.getElementById('medium-posts');
