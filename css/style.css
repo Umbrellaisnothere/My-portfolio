@@ -185,6 +185,22 @@ header {
     color: #f0f0f0;
 }
 
+.dark-mode .project-link {
+    color: #f0f0f0;
+}
+
+.dark-mode .project-link:hover {
+    border-bottom-color: #f0f0f0;
+}
+
+.dark-mode .post-link {
+    color: #f0f0f0;
+}
+
+.dark-mode .post-link:hover {
+    border-bottom-color: #f0f0f0;
+}
+
 h1.message {
     font-size: 3em;
     font-weight: bold;
