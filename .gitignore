@@ -1,6 +1,7 @@
 # Consulted on most common .gitignore files and folders to ignore
 # Images - Keep private
-css/images/
+css/images/FB_IMG_1474305737867.jpg
+css/images/unnamed.jpg
 
 # OS generated files
 .DS_Store
