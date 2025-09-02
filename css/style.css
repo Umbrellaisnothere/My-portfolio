@@ -1366,6 +1366,10 @@ footer::before {
     letter-spacing: 2px;
 }
 
+.dark-mode .skills-section .section-title {
+    color: #fff;
+}
+
 .skills-grid {
     display: flex;
     flex-wrap: wrap;
