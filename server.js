@@ -1,7 +1,21 @@
+require('dotenv').config();
+
+// Check for required environment variables
+const requiredEnvVars = ['SMTP_HOST', 'SMTP_PORT', 'EMAIL_USER', 'EMAIL_PASS', 'RECIPIENT_EMAIL'];
+const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingVars.length > 0) {
+  console.error('❌ Missing required environment variables:');
+  missingVars.forEach(varName => console.error(`   - ${varName}`));
+  console.error('\n📝 Please create a .env file based on .env.example and fill in your Gmail App Password.');
+  console.error('   Run: cp .env.example .env');
+  console.error('   Then edit .env with your App Password from: https://myaccount.google.com/apppasswords');
+  process.exit(1);
+}
+
 const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
-require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -11,8 +25,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Transporter for email
-const transporter = nodemailer.createTransporter({
+// Create transporter for email
+const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: process.env.SMTP_PORT,
   secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
