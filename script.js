@@ -3,6 +3,9 @@ const toggleButton = document.getElementById('toggle-dark-mode');
 const body = document.body;
 const content = document.getElementById("content");
 
+// API endpoint configuration - change this for production
+const API_BASE_URL = 'http://localhost:3001'; // For production, change to your deployed backend URL
+
 const year= document.querySelector("#current-year")
 
 if (year) {
@@ -107,18 +110,19 @@ if (hamburger && drawer && closeDrawer) {
 const contactForm = document.getElementById('contact-form');
 const contactSuccess = document.getElementById('contact-success');
 if (contactForm && contactSuccess) {
-  contactForm.addEventListener('submit', function(e) {
+  contactForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     
     // Get form data
     const formData = new FormData(contactForm);
     const name = formData.get('name') || document.getElementById('name')?.value;
     const email = formData.get('email') || document.getElementById('email')?.value;
-    const subject = formData.get('subject') || document.getElementById('subject')?.value;
+    const subject = formData.get('subject') || document.getElementById('subject')?.value || 'Portfolio Contact';
+    const projectType = formData.get('project-type') || document.getElementById('project-type')?.value;
     const message = formData.get('message') || document.getElementById('message')?.value;
     
     // Basic validation
-    if (!name || !email || !subject || !message) {
+    if (!name || !email || !message) {
       alert('Please fill in all required fields.');
       return;
     }
@@ -130,23 +134,49 @@ if (contactForm && contactSuccess) {
       return;
     }
     
-    // Hide form and show success message
-    contactForm.querySelectorAll('input, textarea, select, button').forEach(el => {
-      if (el !== contactSuccess) el.style.display = 'none';
-    });
-    
-    contactSuccess.style.display = 'flex';
-    contactSuccess.style.opacity = 0;
-    setTimeout(() => { contactSuccess.style.opacity = 1; }, 50);
-    
-    // Reset form after 5 seconds
-    setTimeout(() => {
-      contactForm.reset();
-      contactForm.querySelectorAll('input, textarea, select, button').forEach(el => {
-        if (el !== contactSuccess) el.style.display = '';
+    try {
+      // Send data to backend
+      const response = await fetch(`${API_BASE_URL}/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          subject,
+          projectType,
+          message
+        })
       });
-      contactSuccess.style.display = 'none';
-    }, 5000);
+      
+      const result = await response.json();
+      
+      if (response.ok) {
+        // Hide form and show success message
+        contactForm.querySelectorAll('input, textarea, select, button').forEach(el => {
+          if (el !== contactSuccess) el.style.display = 'none';
+        });
+        
+        contactSuccess.style.display = 'flex';
+        contactSuccess.style.opacity = 0;
+        setTimeout(() => { contactSuccess.style.opacity = 1; }, 50);
+        
+        // Reset form after 5 seconds
+        setTimeout(() => {
+          contactForm.reset();
+          contactForm.querySelectorAll('input, textarea, select, button').forEach(el => {
+            if (el !== contactSuccess) el.style.display = '';
+          });
+          contactSuccess.style.display = 'none';
+        }, 5000);
+      } else {
+        alert(result.error || 'Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('Failed to send message. Please check your connection and try again.');
+    }
   });
 }
 
