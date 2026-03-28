@@ -29,7 +29,7 @@ For production:
 2. Update `API_BASE_URL` in `script.js` to point to your deployed backend URL
 3. Deploy these frontend files to any static hosting service (GitHub Pages, Netlify, Vercel, etc.)
 
-## Local Development Server
+## Local Development Server *(Testing)
 
 You can serve the frontend locally using any static server:
 
