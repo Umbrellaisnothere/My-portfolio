@@ -1561,6 +1561,16 @@ footer,
     width: 42px;
     height: 42px;
   }
+
+  .footer-content,
+  .footer-bottom {
+    padding-right: 64px;
+  }
+
+  footer,
+  .footer {
+    padding-bottom: 28px;
+  }
 }
 
 @media (max-width: 480px) {
