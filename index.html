@@ -66,7 +66,7 @@
       </button>
     </nav>
 
-    <main id="main-content">
+    <main id="main-content" tabindex="-1">
     <section id="hero-section">
       <div class="hero-web" aria-hidden="true">
         <svg viewBox="0 0 1200 640" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" preserveAspectRatio="xMidYMid slice">
@@ -199,13 +199,13 @@
       <p class="contact-intro">Have a project in mind or just want to say hello? I'd love to hear from you!</p>
       <form action="#" class="contact_form" id="contact-form">
         <label class="visually-hidden" for="home-name">Your Name</label>
-        <input type="text" id="home-name" name="name" placeholder="Your Name" class="contact_input" required>
+        <input type="text" id="home-name" name="name" placeholder="Your Name" class="contact_input" required maxlength="100" autocomplete="name">
         <label class="visually-hidden" for="home-email">Your Email</label>
-        <input type="email" id="home-email" name="email" placeholder="Your Email" class="contact_input" required>
+        <input type="email" id="home-email" name="email" placeholder="Your Email" class="contact_input" required maxlength="254" autocomplete="email">
         <label class="visually-hidden" for="home-message">Your Message</label>
-        <textarea id="home-message" name="message" placeholder="Your Message" class="contact_input" required></textarea>
+        <textarea id="home-message" name="message" placeholder="Your Message" class="contact_input" required maxlength="4000"></textarea>
         <button type="submit" class="contact_button">Send Message</button>
-        <div id="contact-success" class="contact-success" style="display:none;">Thank you for reaching out! I'll get back to you soon.</div>
+        <p id="contact-status" class="contact-status" role="status" aria-live="polite"></p>
       </form>
     </section>
     </main>
@@ -260,6 +260,7 @@
     </footer>
     
 
+    <script src="config.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
