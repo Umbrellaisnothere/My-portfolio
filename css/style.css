@@ -204,13 +204,14 @@ header {
   color: var(--color-header-text);
   font-size: 1.15rem;
   opacity: 0.7;
-  transition: color 0.2s ease, opacity 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
 }
 
 .social-icons a:hover,
 .social-icons a:focus-visible {
   opacity: 1;
   color: var(--color-accent);
+  transform: translateY(-1px);
 }
 
 /* Dark-mode toggle sits in the header flow (not overlaying it). */
@@ -231,7 +232,7 @@ header {
   flex-shrink: 0;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
 }
 
 #toggle-dark-mode:active {
@@ -507,6 +508,10 @@ section > * {
   margin: 0 0 12px;
 }
 
+.hero-word {
+  display: inline-block;
+}
+
 .hero-location {
   font-size: 1rem;
   color: var(--color-text-muted);
@@ -603,7 +608,7 @@ section > * {
 
 .project-card:hover,
 .project-card:focus-within {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-md);
   border-color: var(--color-accent);
 }
@@ -624,7 +629,7 @@ section > * {
 
 .project-card:hover .project-img,
 .project-card:focus-within .project-img {
-  transform: scale(1.04);
+  transform: scale(1.03);
 }
 
 .project-content {
@@ -1057,6 +1062,11 @@ footer,
 .back-to-top:focus-visible {
   background: var(--color-accent);
   color: #fff;
+}
+
+.back-to-top.visible:hover,
+.back-to-top.visible:focus-visible {
+  transform: translateY(-2px);
 }
 
 /* ----- About ----- */
@@ -1729,3 +1739,156 @@ footer,
     font-size: 1.5rem;
   }
 }
+
+/* ----- Motion (Phase 4) ----- */
+
+@keyframes hero-word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes web-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes web-node-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.motion-ok .hero-word {
+  opacity: 0;
+  animation: hero-word-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.motion-ok .hero-word:nth-child(1) {
+  animation-delay: 0.16s;
+}
+
+.motion-ok .hero-word:nth-child(2) {
+  animation-delay: 0.26s;
+}
+
+.motion-ok .hero-word:nth-child(3) {
+  animation-delay: 0.34s;
+}
+
+.motion-ok .hero-location {
+  opacity: 0;
+  animation: hero-fade-up 0.45s ease 0.42s forwards;
+}
+
+.motion-ok .hero-description {
+  opacity: 0;
+  animation: hero-fade-up 0.45s ease 0.54s forwards;
+}
+
+.motion-ok .hero-web svg.is-drawing path {
+  animation: web-draw 0.8s ease-out forwards;
+  animation-delay: var(--web-delay, 0s);
+}
+
+.motion-ok .hero-web svg.is-drawing circle {
+  opacity: 0;
+  animation: web-node-in 0.35s ease forwards;
+  animation-delay: var(--web-delay, 0.5s);
+}
+
+.js-ready.motion-ok .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.js-ready.motion-ok .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+@media (max-width: 768px) {
+  .motion-ok .hero-word {
+    animation-duration: 0.42s;
+  }
+
+  .motion-ok .hero-word:nth-child(1) {
+    animation-delay: 0.08s;
+  }
+
+  .motion-ok .hero-word:nth-child(2) {
+    animation-delay: 0.14s;
+  }
+
+  .motion-ok .hero-word:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+
+  .motion-ok .hero-location {
+    animation-delay: 0.24s;
+    animation-duration: 0.36s;
+  }
+
+  .motion-ok .hero-description {
+    animation-delay: 0.32s;
+    animation-duration: 0.36s;
+  }
+
+  .motion-ok .hero-web svg.is-drawing path {
+    animation-duration: 0.55s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero-word,
+  .hero-location,
+  .hero-description,
+  .hero-web path,
+  .hero-web circle,
+  .reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+
+  .project-card,
+  .project-img,
+  .menu a,
+  .social-icons a,
+  .project-link,
+  .contact_button,
+  .back-to-top,
+  #toggle-dark-mode,
+  .cta-button {
+    transition-duration: 0.01s;
+  }
+}
+
