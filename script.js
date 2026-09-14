@@ -11,6 +11,14 @@ if (year) {
   year.textContent = new Date().getFullYear();
 }
 
+const skipLink = document.querySelector('.skip-link');
+if (skipLink) {
+  skipLink.addEventListener('click', () => {
+    const main = document.getElementById('main-content');
+    if (main) main.focus();
+  });
+}
+
 const drawerToggle = document.getElementById('drawer-toggle-dark-mode');
 
 function updateDarkModeControls(isDark) {

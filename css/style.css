@@ -144,6 +144,10 @@ select.contact_input {
   outline-offset: 3px;
 }
 
+#main-content:focus {
+  outline: none;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
