@@ -14,20 +14,14 @@ This folder contains only the frontend files:
 
 ## Backend Setup
 
-The contact form requires a separate backend server to send emails. The backend is located in `../portfolio-backend/` with its own setup instructions in `README.md`.
+The contact form uses a small Express API in this repository (`server.js`).
 
-## Development
+1. Copy `.env.example` to `.env` and add SMTP credentials (never commit `.env`)
+2. Run `npm install` and `npm start`
+3. Keep `config.js` pointed at `http://localhost:3001` for local development
+4. For production, set `apiBaseUrl` in `config.js` to the deployed API origin
 
-1. **Start the backend server first** (see `../portfolio-backend/README.md`)
-2. Open `index.html` in your browser or use a local server
-3. The contact form will send emails via the backend API
-
-## Production Deployment
-
-For production:
-1. Deploy the backend (`../portfolio-backend/`) to a service like Railway, Render, or Vercel
-2. Update `API_BASE_URL` in `script.js` to point to your deployed backend URL
-3. Deploy these frontend files to any static hosting service (GitHub Pages, Netlify, Vercel, etc.)
+See `README.md` for endpoint and environment details.
 
 ## Local Development Server *(Testing)
 
