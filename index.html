@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Keith</title>
+    <script>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('motion-ok');
+      }
+    </script>
     <link rel="icon" href="css/images/unnamed.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,7 +104,7 @@
         </svg>
       </div>
       <div class="hero-content">
-        <h1 class="hero-name">Keith Murimi</h1>
+        <h1 class="hero-name"><span class="hero-word">Keith</span> <span class="hero-word">Murimi</span></h1>
         <p class="hero-location"><i class="fa-solid fa-map-marker-alt"></i> Nairobi, Kenya</p>
         <p class="hero-description">I'm a Software Engineering graduate and Full-Stack Web Developer. I create professional websites and applications with modern technologies.</p>
       </div>
