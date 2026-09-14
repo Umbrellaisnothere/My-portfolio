@@ -65,7 +65,7 @@
       </button>
     </nav>
 
-    <main id="main-content">
+    <main id="main-content" tabindex="-1">
     <section id="hero-section">
       <div class="hero-content">
         <h1 class="hero-name"><span class="hero-word">Get</span> <span class="hero-word">In</span> <span class="hero-word">Touch</span></h1>
@@ -118,31 +118,25 @@
     <section class="contact-form-section">
       <h2 class="section-title">Send Me a Message</h2>
       <p class="contact-intro">Have a specific project in mind? Let's discuss how we can work together to bring your vision to life.</p>
-      
-      <div class="backend-notice">
-        <i class="fa-solid fa-tools"></i>
-        <h3>Backend Under Development</h3>
-        <p>The contact form backend is currently in production. Please reach out via email, LinkedIn, or GitHub for now. Thank you for your patience!</p>
-      </div>
-      
-      <!-- <div class="contact-form-container">
+
+      <div class="contact-form-container">
         <form action="#" class="contact_form" id="contact-form">
           <div class="form-row">
             <div class="form-group">
               <label for="name" class="form-label">Full Name *</label>
-              <input type="text" id="name" name="name" placeholder="Your full name" class="contact_input" required>
+              <input type="text" id="name" name="name" placeholder="Your full name" class="contact_input" required maxlength="100" autocomplete="name">
             </div>
             <div class="form-group">
               <label for="email" class="form-label">Email Address *</label>
-              <input type="email" id="email" name="email" placeholder="your.email@example.com" class="contact_input" required>
+              <input type="email" id="email" name="email" placeholder="your.email@example.com" class="contact_input" required maxlength="254" autocomplete="email">
             </div>
           </div>
-          
+
           <div class="form-group">
-            <label for="subject" class="form-label">Subject *</label>
-            <input type="text" id="subject" name="subject" placeholder="What's this about?" class="contact_input" required>
+            <label for="subject" class="form-label">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="What's this about?" class="contact_input" maxlength="200">
           </div>
-          
+
           <div class="form-group">
             <label for="project-type" class="form-label">Project Type</label>
             <select id="project-type" name="project-type" class="contact_input">
@@ -155,35 +149,28 @@
               <option value="other">Other</option>
             </select>
           </div>
-          
+
           <div class="form-group">
             <label for="message" class="form-label">Message *</label>
-            <textarea id="message" name="message" placeholder="Tell me about your project, timeline, and any specific requirements..." class="contact_input" rows="6" required></textarea>
+            <textarea id="message" name="message" placeholder="Tell me about your project, timeline, and any specific requirements..." class="contact_input" rows="6" required maxlength="4000"></textarea>
           </div>
-          
+
           <div class="form-group">
             <label class="checkbox-label">
-              <input type="checkbox" class="contact_checkbox" required>
+              <input type="checkbox" class="contact_checkbox" name="consent" required>
               <span class="checkmark"></span>
               I agree to the privacy policy and consent to being contacted regarding my inquiry.
             </label>
           </div>
-          
+
           <button type="submit" class="contact_button">
-            <i class="fa-solid fa-paper-plane"></i>
+            <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
             Send Message
           </button>
-          
-          <div id="contact-success" class="contact-success" style="display:none;">
-            <i class="fa-solid fa-check-circle"></i>
-            <div class="success-content">
-              <h3>Message Sent Successfully!</h3>
-              <p>Thank you for reaching out. I'll get back to you within 24 hours.</p>
-            </div>
-          </div>
+
+          <p id="contact-status" class="contact-status" role="status" aria-live="polite"></p>
         </form>
       </div>
-      -->
     </section>
 
     <section class="availability-section">
@@ -276,6 +263,7 @@
         <i class="fa-solid fa-arrow-up"></i>
       </button>
     </footer>
+    <script src="config.js"></script>
     <script src="script.js"></script>
   </body>
 </html> 

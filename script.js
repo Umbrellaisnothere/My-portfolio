@@ -2,13 +2,20 @@ document.addEventListener('DOMContentLoaded', () => {
 const toggleButton = document.getElementById('toggle-dark-mode');
 const body = document.body;
 
-// API endpoint configuration - change this for production
-const API_BASE_URL = 'http://localhost:3001'; // For production, change to your deployed backend URL
+const API_BASE_URL = (window.PORTFOLIO_CONFIG && window.PORTFOLIO_CONFIG.apiBaseUrl) || 'http://localhost:3001';
 
 const year= document.querySelector("#current-year")
 
 if (year) {
   year.textContent = new Date().getFullYear();
+}
+
+const skipLink = document.querySelector('.skip-link');
+if (skipLink) {
+  skipLink.addEventListener('click', () => {
+    const main = document.getElementById('main-content');
+    if (main) main.focus();
+  });
 }
 
 const drawerToggle = document.getElementById('drawer-toggle-dark-mode');
@@ -129,79 +136,91 @@ if (hamburger && drawer && closeDrawer) {
   });
 }
 
-// Enhanced Contact Form
-const contactForm = document.getElementById('contact-form');
-const contactSuccess = document.getElementById('contact-success');
-if (contactForm && contactSuccess) {
-  contactForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    // Get form data
-    const formData = new FormData(contactForm);
-    const name = formData.get('name') || document.getElementById('name')?.value;
-    const email = formData.get('email') || document.getElementById('email')?.value;
-    const subject = formData.get('subject') || document.getElementById('subject')?.value || 'Portfolio Contact';
-    const projectType = formData.get('project-type') || document.getElementById('project-type')?.value;
-    const message = formData.get('message') || document.getElementById('message')?.value;
-    
-    // Basic validation
+function setContactStatus(statusEl, type, message) {
+  if (!statusEl) return;
+  statusEl.textContent = message;
+  statusEl.classList.remove('is-success', 'is-error');
+  if (type) statusEl.classList.add(type);
+}
+
+function bindContactForm(form) {
+  const submitButton = form.querySelector('.contact_button');
+  const statusEl = form.querySelector('.contact-status') || document.getElementById('contact-status');
+  if (!submitButton) return;
+
+  const originalButtonHtml = submitButton.innerHTML;
+  let isSubmitting = false;
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (isSubmitting) return;
+
+    const formData = new FormData(form);
+    const name = (formData.get('name') || '').toString().trim();
+    const email = (formData.get('email') || '').toString().trim();
+    const subject = (formData.get('subject') || '').toString().trim();
+    const projectType = (formData.get('project-type') || '').toString().trim();
+    const message = (formData.get('message') || '').toString().trim();
+
     if (!name || !email || !message) {
-      alert('Please fill in all required fields.');
+      setContactStatus(statusEl, 'is-error', 'Please fill in your name, email, and message.');
       return;
     }
-    
-    // Email validation
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      alert('Please enter a valid email address.');
+      setContactStatus(statusEl, 'is-error', 'Please enter a valid email address.');
       return;
     }
-    
+
+    isSubmitting = true;
+    form.setAttribute('aria-busy', 'true');
+    submitButton.disabled = true;
+    submitButton.setAttribute('aria-busy', 'true');
+    submitButton.textContent = 'Sending...';
+    setContactStatus(statusEl, '', 'Sending your message...');
+
+    const payload = { name, email, message };
+    if (subject) payload.subject = subject;
+    if (projectType) payload.projectType = projectType;
+
     try {
-      // Send data to backend
       const response = await fetch(`${API_BASE_URL}/send-email`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          subject,
-          projectType,
-          message
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
-      
-      const result = await response.json();
-      
-      if (response.ok) {
-        // Hide form and show success message
-        contactForm.querySelectorAll('input, textarea, select, button').forEach(el => {
-          if (el !== contactSuccess) el.style.display = 'none';
-        });
-        
-        contactSuccess.style.display = 'flex';
-        contactSuccess.style.opacity = 0;
-        setTimeout(() => { contactSuccess.style.opacity = 1; }, 50);
-        
-        // Reset form after 5 seconds
-        setTimeout(() => {
-          contactForm.reset();
-          contactForm.querySelectorAll('input, textarea, select, button').forEach(el => {
-            if (el !== contactSuccess) el.style.display = '';
-          });
-          contactSuccess.style.display = 'none';
-        }, 5000);
+
+      let result = {};
+      try {
+        result = await response.json();
+      } catch {
+        result = {};
+      }
+
+      if (response.ok && result.success) {
+        form.reset();
+        setContactStatus(statusEl, 'is-success', result.message || 'Thank you for reaching out! I\'ll get back to you soon.');
+      } else if (response.status === 429) {
+        setContactStatus(statusEl, 'is-error', result.message || 'Too many messages. Please try again later.');
+      } else if (response.status >= 400 && response.status < 500) {
+        setContactStatus(statusEl, 'is-error', result.message || 'Please check the information you entered.');
       } else {
-        alert(result.error || 'Failed to send message. Please try again.');
+        setContactStatus(statusEl, 'is-error', result.message || 'Unable to send your message right now. Please try again later.');
       }
     } catch (error) {
-      console.error('Error sending message:', error);
-      alert('Failed to send message. Please check your connection and try again.');
+      setContactStatus(statusEl, 'is-error', 'Unable to send your message right now. Please try again later.');
+    } finally {
+      isSubmitting = false;
+      form.removeAttribute('aria-busy');
+      submitButton.disabled = false;
+      submitButton.removeAttribute('aria-busy');
+      submitButton.innerHTML = originalButtonHtml;
     }
   });
 }
+
+document.querySelectorAll('form.contact_form').forEach(bindContactForm);
 
 async function fetchMediumPosts() {
   const mediumPostsContainer = document.getElementById('medium-posts');

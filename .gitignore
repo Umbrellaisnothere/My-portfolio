@@ -1,3 +1,7 @@
+# Local environment and dependencies
+.env
+node_modules/
+
 # Frontend .gitignore
 # Consulted on most common .gitignore files and folders to ignore
 
