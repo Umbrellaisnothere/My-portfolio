@@ -17,52 +17,55 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header>
       <div class="header-container">
         <div class="logo"><span>Keith Murimi</span></div>
-        <nav class="menu">
+        <nav class="menu" aria-label="Primary">
           <a href="index.html">Home</a>
-          <a href="about.html">About</a>
+          <a href="about.html" aria-current="page">About</a>
           <a href="index.html#Projects">Projects</a>
           <a href="index.html#Skills">Skills</a>
           <a href="contact.html">Contact</a>
         </nav>
         <div class="header-right">
           <div class="social-icons">
-            <a href="https://www.instagram.com/ohnoitsumbrella/" target="_blank" rel="noopener noreferrer" title="Instagram">
-              <i class="fa-brands fa-instagram"></i>
+            <a href="https://www.instagram.com/ohnoitsumbrella/" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram">
+              <i class="fa-brands fa-instagram" aria-hidden="true"></i>
             </a>
-            <a href="https://github.com/Umbrellaisnothere" target="_blank" rel="noopener noreferrer" title="GitHub">
-              <i class="fa-brands fa-github"></i>
+            <a href="https://github.com/Umbrellaisnothere" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub">
+              <i class="fa-brands fa-github" aria-hidden="true"></i>
             </a>
-            <a href="https://www.linkedin.com/in/keith-murimi/" target="_blank" rel="noopener noreferrer" title="LinkedIn">
-              <i class="fa-brands fa-linkedin"></i>
+            <a href="https://www.linkedin.com/in/keith-murimi/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn">
+              <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
             </a>
           </div>
-          <button id="toggle-dark-mode" aria-label="Toggle dark mode">
+          <button type="button" id="toggle-dark-mode" aria-label="Switch to dark mode" aria-pressed="false">
             <span class="toggle-slider">
-              <span class="toggle-icon"><i class="fa-solid fa-moon"></i></span>
+              <span class="toggle-icon"><i class="fa-solid fa-moon" aria-hidden="true"></i></span>
             </span>
           </button>
-          <button id="hamburger-menu" aria-label="Open menu" aria-expanded="false">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
+          <button type="button" id="hamburger-menu" aria-label="Open menu" aria-expanded="false" aria-controls="side-drawer">
+            <span class="bar" aria-hidden="true"></span>
+            <span class="bar" aria-hidden="true"></span>
+            <span class="bar" aria-hidden="true"></span>
           </button>
         </div>
       </div>
     </header>
-    <nav class="side-drawer" id="side-drawer">
-      <button id="close-drawer" aria-label="Close menu">&times;</button>
+    <nav class="side-drawer" id="side-drawer" aria-label="Mobile">
+      <button type="button" id="close-drawer" aria-label="Close menu">&times;</button>
       <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="#Projects">Projects</a>
+      <a href="about.html" aria-current="page">About</a>
+      <a href="index.html#Projects">Projects</a>
+      <a href="index.html#Skills">Skills</a>
       <a href="contact.html">Contact Me</a>
-      <button id="drawer-toggle-dark-mode" aria-label="Toggle dark mode">
-        <i class="fa-solid fa-circle-half-stroke"></i>
+      <button type="button" id="drawer-toggle-dark-mode" aria-label="Switch to dark mode" aria-pressed="false">
+        <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i>
       </button>
     </nav>
-    
+
+    <main id="main-content">
     <section id="hero-section">
       <div class="hero-content">
         <h1 class="hero-name"><span class="hero-word">About</span> <span class="hero-word">Me</span></h1>
@@ -233,6 +236,7 @@
         <div class="skill-item"><i class="fa-brands fa-git-alt"></i><span>Git</span></div>
       </div>
     </section>
+    </main>
 
     <footer class="footer">
       <div class="footer-content">
@@ -251,23 +255,23 @@
           <h4 class="footer-subtitle">Contact Info</h4>
           <div class="footer-contact">
             <div class="contact-item">
-              <i class="fa-solid fa-envelope"></i>
-              <span>keithmurimi9@gmail.com</span>
+              <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+              <a href="mailto:keithmurimi9@gmail.com">keithmurimi9@gmail.com</a>
             </div>
             <div class="contact-item">
-              <i class="fa-solid fa-code"></i>
+              <i class="fa-solid fa-code" aria-hidden="true"></i>
               <span>Available for projects</span>
             </div>
           </div>
           <div class="footer-social">
             <a href="https://www.instagram.com/ohnoitsumbrella/" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram">
-              <i class="fa-brands fa-instagram"></i>
+              <i class="fa-brands fa-instagram" aria-hidden="true"></i>
             </a>
             <a href="https://github.com/Umbrellaisnothere" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub">
-              <i class="fa-brands fa-github"></i>
+              <i class="fa-brands fa-github" aria-hidden="true"></i>
             </a>
             <a href="https://www.linkedin.com/in/keith-murimi/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn">
-              <i class="fa-brands fa-linkedin"></i>
+              <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
             </a>
           </div>
         </div>
@@ -278,7 +282,7 @@
         <p class="footer-made-with">Made with <i class="fa-solid fa-heart"></i> and lots of coffee</p>
       </div>
       
-      <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+      <button type="button" id="back-to-top" class="back-to-top" aria-label="Back to top">
         <i class="fa-solid fa-arrow-up"></i>
       </button>
     </footer>
