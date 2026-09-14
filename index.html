@@ -18,11 +18,12 @@
   </head>
 
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header>
       <div class="header-container">
         <div class="logo"><span>Keith Murimi</span></div>
-        <nav class="menu">
-          <a href="#hero-section">Home</a>
+        <nav class="menu" aria-label="Primary">
+          <a href="#hero-section" aria-current="page">Home</a>
           <a href="about.html">About</a>
           <a href="#Projects">Projects</a>
           <a href="#Skills">Skills</a>
@@ -30,40 +31,42 @@
         </nav>
         <div class="header-right">
           <div class="social-icons">
-            <a href="https://www.instagram.com/ohnoitsumbrella/" target="_blank" rel="noopener noreferrer" title="Instagram">
-              <i class="fa-brands fa-instagram"></i>
+            <a href="https://www.instagram.com/ohnoitsumbrella/" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram">
+              <i class="fa-brands fa-instagram" aria-hidden="true"></i>
             </a>
-            <a href="https://github.com/Umbrellaisnothere" target="_blank" rel="noopener noreferrer" title="GitHub">
-              <i class="fa-brands fa-github"></i>
+            <a href="https://github.com/Umbrellaisnothere" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub">
+              <i class="fa-brands fa-github" aria-hidden="true"></i>
             </a>
-            <a href="https://www.linkedin.com/in/keith-murimi/" target="_blank" rel="noopener noreferrer" title="LinkedIn">
-              <i class="fa-brands fa-linkedin"></i>
+            <a href="https://www.linkedin.com/in/keith-murimi/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn">
+              <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
             </a>
           </div>
-          <button id="toggle-dark-mode" aria-label="Toggle dark mode">
+          <button type="button" id="toggle-dark-mode" aria-label="Switch to dark mode" aria-pressed="false">
             <span class="toggle-slider">
-              <span class="toggle-icon"><i class="fa-solid fa-moon"></i></span>
+              <span class="toggle-icon"><i class="fa-solid fa-moon" aria-hidden="true"></i></span>
             </span>
           </button>
-          <button id="hamburger-menu" aria-label="Open menu" aria-expanded="false">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
+          <button type="button" id="hamburger-menu" aria-label="Open menu" aria-expanded="false" aria-controls="side-drawer">
+            <span class="bar" aria-hidden="true"></span>
+            <span class="bar" aria-hidden="true"></span>
+            <span class="bar" aria-hidden="true"></span>
           </button>
         </div>
       </div>
     </header>
-    <nav class="side-drawer" id="side-drawer">
-      <button id="close-drawer" aria-label="Close menu">&times;</button>
-      <a href="index.html">Home</a>
+    <nav class="side-drawer" id="side-drawer" aria-label="Mobile">
+      <button type="button" id="close-drawer" aria-label="Close menu">&times;</button>
+      <a href="index.html" aria-current="page">Home</a>
       <a href="about.html">About</a>
-      <a href="#Projects">Projects</a>
+      <a href="index.html#Projects">Projects</a>
+      <a href="index.html#Skills">Skills</a>
       <a href="contact.html">Contact Me</a>
-      <button id="drawer-toggle-dark-mode" aria-label="Toggle dark mode">
-        <i class="fa-solid fa-circle-half-stroke"></i>
+      <button type="button" id="drawer-toggle-dark-mode" aria-label="Switch to dark mode" aria-pressed="false">
+        <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i>
       </button>
     </nav>
-    
+
+    <main id="main-content">
     <section id="hero-section">
       <div class="hero-web" aria-hidden="true">
         <svg viewBox="0 0 1200 640" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" preserveAspectRatio="xMidYMid slice">
@@ -140,7 +143,7 @@
               <span class="tech-tag">CSS</span>
               <span class="tech-tag">HTML</span>
             </div>
-            <a href="https://e-commerce-frontend-dun-eta.vercel.app/" class="project-link" target="_blank">Learn more</a> 
+            <a href="https://e-commerce-frontend-dun-eta.vercel.app/" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="Learn more about TasteNshop">Learn more</a> 
             <!-- Still a work in progress -->
           </div>
         </div>
@@ -157,7 +160,7 @@
               <span class="tech-tag">CSS</span>
               <span class="tech-tag">JavaScript</span>
             </div>
-            <a href="https://rock-paper-scissors-murex-omega.vercel.app/" class="project-link" target="_blank">Learn more</a> 
+            <a href="https://rock-paper-scissors-murex-omega.vercel.app/" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="Learn more about Rock, Paper and Scissors Game">Learn more</a> 
           </div>
         </div>
         
@@ -167,17 +170,17 @@
           </div>
           <div class="project-content">
             <h3 class="project-title">TowTrack</h3>
-          <p class="project-description">TowTrack is a comprehensive towing management system designed to streamline operations for towing companies. It offers features such as vehicle tracking, job scheduling, and customer management.</p>
-          <div class="project-tech">
-            <span class="tech-tag">HTML</span>
-            <span class="tech-tag">CSS</span>
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Flask</span>
+            <p class="project-description">TowTrack is a comprehensive towing management system designed to streamline operations for towing companies. It offers features such as vehicle tracking, job scheduling, and customer management.</p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Flask</span>
+            </div>
+            <a href="https://tow-track.vercel.app/" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="Learn more about TowTrack">Learn more</a>
           </div>
-          <a href="https://tow-track.vercel.app/" class="project-link" target="_blank">Learn more</a>
-        </div>
-      </div> <!-- Still a work in progress -->
+        </div> <!-- Still a work in progress -->
       
     </div>
     </section>
@@ -195,13 +198,17 @@
       <h2 class="section-title">Get In Touch</h2>
       <p class="contact-intro">Have a project in mind or just want to say hello? I'd love to hear from you!</p>
       <form action="#" class="contact_form" id="contact-form">
-        <input type="text" name="name" placeholder="Your Name" class="contact_input" required>
-        <input type="email" name="email" placeholder="Your Email" class="contact_input" required>
-        <textarea name="message" placeholder="Your Message" class="contact_input" required></textarea>
+        <label class="visually-hidden" for="home-name">Your Name</label>
+        <input type="text" id="home-name" name="name" placeholder="Your Name" class="contact_input" required>
+        <label class="visually-hidden" for="home-email">Your Email</label>
+        <input type="email" id="home-email" name="email" placeholder="Your Email" class="contact_input" required>
+        <label class="visually-hidden" for="home-message">Your Message</label>
+        <textarea id="home-message" name="message" placeholder="Your Message" class="contact_input" required></textarea>
         <button type="submit" class="contact_button">Send Message</button>
         <div id="contact-success" class="contact-success" style="display:none;">Thank you for reaching out! I'll get back to you soon.</div>
       </form>
     </section>
+    </main>
 
     <footer class="footer">
       <div class="footer-content">
@@ -220,23 +227,23 @@
           <h4 class="footer-subtitle">Contact Info</h4>
           <div class="footer-contact">
             <div class="contact-item">
-              <i class="fa-solid fa-envelope"></i>
-              <span>keithmurimi9@gmail.com</span>
+              <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+              <a href="mailto:keithmurimi9@gmail.com">keithmurimi9@gmail.com</a>
             </div>
             <div class="contact-item">
-              <i class="fa-solid fa-code"></i>
+              <i class="fa-solid fa-code" aria-hidden="true"></i>
               <span>Available for projects</span>
             </div>
           </div>
           <div class="footer-social">
             <a href="https://www.instagram.com/ohnoitsumbrella/" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram">
-              <i class="fa-brands fa-instagram"></i>
+              <i class="fa-brands fa-instagram" aria-hidden="true"></i>
             </a>
             <a href="https://github.com/Umbrellaisnothere" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub">
-              <i class="fa-brands fa-github"></i>
+              <i class="fa-brands fa-github" aria-hidden="true"></i>
             </a>
             <a href="https://www.linkedin.com/in/keith-murimi/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn">
-              <i class="fa-brands fa-linkedin"></i>
+              <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
             </a>
           </div>
         </div>
@@ -247,7 +254,7 @@
         <p class="footer-made-with">Made with <i class="fa-solid fa-heart"></i> and lots of coffee</p>
       </div>
       
-      <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+      <button type="button" id="back-to-top" class="back-to-top" aria-label="Back to top">
         <i class="fa-solid fa-arrow-up"></i>
       </button>
     </footer>
