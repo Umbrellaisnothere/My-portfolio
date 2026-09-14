@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - Keith</title>
+    <script>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('motion-ok');
+      }
+    </script>
     <link rel="icon" href="css/images/unnamed.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,7 +65,7 @@
     
     <section id="hero-section">
       <div class="hero-content">
-        <h1 class="hero-name">Get In Touch</h1>
+        <h1 class="hero-name"><span class="hero-word">Get</span> <span class="hero-word">In</span> <span class="hero-word">Touch</span></h1>
         <p class="hero-location">Let's Start a Conversation</p>
         <p class="hero-description">Ready to bring your ideas to life? Whether you have a project in mind, want to collaborate, or just want to say hello, I'm here to help!</p>
       </div>
