@@ -123,6 +123,49 @@ select.contact_input {
   outline-offset: 3px;
 }
 
+.skip-link {
+  position: absolute;
+  left: var(--page-pad);
+  top: -64px;
+  z-index: 2100;
+  padding: 8px 14px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.skip-link:focus {
+  top: 12px;
+  outline: var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.menu a[aria-current="page"] {
+  opacity: 1;
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
+.side-drawer a[aria-current="page"] {
+  color: var(--color-accent);
+}
+
 /* ----- Header ----- */
 
 header {
@@ -321,11 +364,13 @@ header {
   align-items: flex-start;
   padding: 64px 24px 24px;
   z-index: 2000;
-  transition: left 0.28s ease;
+  visibility: hidden;
+  transition: left 0.28s ease, visibility 0.28s ease;
 }
 
 .side-drawer.open {
   left: 0;
+  visibility: visible;
 }
 
 .side-drawer a {
@@ -969,6 +1014,16 @@ footer,
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+.contact-item a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.contact-item a:hover,
+.contact-item a:focus-visible {
+  color: var(--color-accent);
 }
 
 .footer-social {
@@ -1887,7 +1942,8 @@ footer,
   .contact_button,
   .back-to-top,
   #toggle-dark-mode,
-  .cta-button {
+  .cta-button,
+  .side-drawer {
     transition-duration: 0.01s;
   }
 }
