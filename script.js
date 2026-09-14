@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 const toggleButton = document.getElementById('toggle-dark-mode');
 const body = document.body;
-const content = document.getElementById("content");
 
 // API endpoint configuration - change this for production
 const API_BASE_URL = 'http://localhost:3001'; // For production, change to your deployed backend URL
@@ -12,18 +11,23 @@ if (year) {
   year.textContent = new Date().getFullYear();
 }
 
-if (content) {
-  setTimeout(() => content.classList.add('content-visible'), 2000);
-}
-
 const drawerToggle = document.getElementById('drawer-toggle-dark-mode');
+
+function updateDarkModeControls(isDark) {
+  const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+  [toggleButton, drawerToggle].forEach((button) => {
+    if (!button) return;
+    button.setAttribute('aria-label', label);
+    button.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+  });
+}
 
 function setToggleButtonState(isDark) {
   if (toggleButton) {
     const iconHTML = `
       <span class="toggle-slider">
         <span class="toggle-icon">
-          <i class="fa-solid fa-moon"></i>
+          <i class="fa-solid fa-moon" aria-hidden="true"></i>
         </span>
       </span>`;
     toggleButton.innerHTML = iconHTML;
@@ -40,11 +44,12 @@ function setToggleButtonState(isDark) {
   }
   if (drawerToggle) {
     if (isDark) {
-      drawerToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+      drawerToggle.innerHTML = '<i class="fa-solid fa-moon" aria-hidden="true"></i>';
     } else {
-      drawerToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+      drawerToggle.innerHTML = '<i class="fa-solid fa-sun" aria-hidden="true"></i>';
     }
   }
+  updateDarkModeControls(isDark);
 }
 
 function setDarkMode(enabled) {
@@ -78,30 +83,48 @@ const drawer = document.getElementById('side-drawer');
 const closeDrawer = document.getElementById('close-drawer');
 
 if (hamburger && drawer && closeDrawer) {
+  function setDrawerOpen(open) {
+    drawer.classList.toggle('open', open);
+    document.body.classList.toggle('drawer-open', open);
+    hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+
+    if (open) {
+      closeDrawer.focus();
+      return;
+    }
+
+    if (document.activeElement && drawer.contains(document.activeElement)) {
+      hamburger.focus();
+    }
+  }
+
   hamburger.addEventListener('click', () => {
-    drawer.classList.add('open');
-    document.body.classList.add('drawer-open');
+    setDrawerOpen(!drawer.classList.contains('open'));
   });
   closeDrawer.addEventListener('click', () => {
-    drawer.classList.remove('open');
-    document.body.classList.remove('drawer-open');
+    setDrawerOpen(false);
   });
-  
+
   // close drawer when clicking on a link
   drawer.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
-      drawer.classList.remove('open');
-      document.body.classList.remove('drawer-open');
+      setDrawerOpen(false);
     });
   });
-  
+
   // close drawer when clicking outside of it
   document.addEventListener('click', (e) => {
-    if (drawer.classList.contains('open') && 
-        !drawer.contains(e.target) && 
+    if (drawer.classList.contains('open') &&
+        !drawer.contains(e.target) &&
         !hamburger.contains(e.target)) {
-      drawer.classList.remove('open');
-      document.body.classList.remove('drawer-open');
+      setDrawerOpen(false);
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) {
+      setDrawerOpen(false);
     }
   });
 }
@@ -180,33 +203,6 @@ if (contactForm && contactSuccess) {
   });
 }
 
-// FAQ Accordion Functionality
-const faqItems = document.querySelectorAll('.faq-item');
-faqItems.forEach(item => {
-  const question = item.querySelector('.faq-question');
-  const answer = item.querySelector('.faq-answer');
-  
-  if (question && answer) {
-    question.addEventListener('click', () => {
-      const isActive = item.classList.contains('active');
-      
-      // Close all other FAQ items
-      faqItems.forEach(otherItem => {
-        if (otherItem !== item) {
-          otherItem.classList.remove('active');
-        }
-      });
-      
-      // Toggle current item
-      if (isActive) {
-        item.classList.remove('active');
-      } else {
-        item.classList.add('active');
-      }
-    });
-  }
-});
-
 async function fetchMediumPosts() {
   const mediumPostsContainer = document.getElementById('medium-posts');
   if (!mediumPostsContainer) return;
@@ -247,12 +243,28 @@ async function fetchMediumPosts() {
         
         const cleanExcerpt = excerpt.length > 140 ? excerpt + '...' : excerpt;
         
-        postElement.innerHTML = `
-          <div class="post-date">${date}</div>
-          <h3 class="post-title">${post.title}</h3>
-          <p class="post-excerpt">${cleanExcerpt}</p>
-          <a href="${post.link}" class="post-link" target="_blank" rel="noopener noreferrer">Read on Medium</a>
-        `;
+        const dateEl = document.createElement('div');
+        dateEl.className = 'post-date';
+        dateEl.textContent = date;
+
+        const titleEl = document.createElement('h3');
+        titleEl.className = 'post-title';
+        titleEl.textContent = post.title || 'Untitled';
+
+        const excerptEl = document.createElement('p');
+        excerptEl.className = 'post-excerpt';
+        excerptEl.textContent = cleanExcerpt;
+
+        const linkEl = document.createElement('a');
+        linkEl.className = 'post-link';
+        linkEl.textContent = 'Read on Medium';
+        linkEl.target = '_blank';
+        linkEl.rel = 'noopener noreferrer';
+        linkEl.href = typeof post.link === 'string' && /^https?:\/\//i.test(post.link)
+          ? post.link
+          : 'https://medium.com/@keith.murimi';
+
+        postElement.append(dateEl, titleEl, excerptEl, linkEl);
         
         mediumPostsContainer.appendChild(postElement);
       });
