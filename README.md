@@ -30,7 +30,7 @@ npm install
 cp .env.example .env
 ```
 
-Edit `.env` with your SMTP credentials. Do not commit `.env`.
+Edit `.env` with your Brevo API values. Do not commit `.env`.
 
 ```bash
 npm start
@@ -45,16 +45,46 @@ The API listens on `PORT` (default `3001`).
 
 Required JSON fields: `name`, `email`, `message`. `subject` is optional.
 
-### Frontend API URL
+## Deploying the contact API
 
-`config.js` defaults to `http://localhost:3001` for local development.
+The frontend stays on Vercel as a static site (`vercel.json`). The contact API is a long-running Express process started with `npm start`. Host it on a Node service, not as Vercel serverless functions.
 
-For production, change `apiBaseUrl` in `config.js` to the deployed API origin. Do not put SMTP passwords in frontend files.
+Outbound SMTP ports are blocked on Render Free web services. This API sends mail through Brevo's HTTPS transactional API instead of SMTP.
 
-### Production notes
+### Runtime
 
-- Frontend (static) and API (Node) are expected to be on different origins.
-- `vercel.json` keeps the Vercel frontend static so `package.json` is not treated as the web app.
-- Set `FRONTEND_URL` to the live frontend origin, for example `https://your-frontend.example.com`.
-- Set `TRUST_PROXY=true` if the API is behind a reverse proxy.
-- `POST /send-email` is limited to 5 requests per 15 minutes per IP.
+- Node.js 18 or later
+- npm 9 or later
+
+### Install and start
+
+```bash
+npm install
+npm start
+```
+
+`npm start` runs `node server.js`. Listen on the host-provided `PORT` (default `3001` if unset). Health check: `GET /health`.
+
+### Environment variables
+
+Set these in the hosting provider's environment-variable settings. Do not commit `.env` or put API keys in frontend files.
+
+- `BREVO_API_KEY` — Brevo transactional API key
+- `EMAIL_FROM` — verified Brevo sender address
+- `EMAIL_FROM_NAME` — sender display name
+- `EMAIL_TO` — address that receives contact-form messages
+- `EMAIL_DRY_RUN` — `true` accepts messages without sending; `false` calls Brevo
+- `PORT` — usually injected by the host
+- `FRONTEND_URL` — live frontend origin(s), comma-separated (scheme + host + port only)
+- `TRUST_PROXY` — `true` when the API is behind a reverse proxy
+
+Optional:
+
+- `RATE_LIMIT_MAX` (default 5)
+- `RATE_LIMIT_WINDOW_MS` (default 900000)
+
+The visitor address is used only as `replyTo`. It is never the sender.
+
+After changing environment variables, restart the web service so the process reloads them.
+
+`POST /send-email` is limited to 5 requests per 15 minutes per IP unless those rate-limit variables are overridden.
