@@ -16,7 +16,7 @@ This folder contains only the frontend files:
 
 The contact form uses a small Express API in this repository (`server.js`).
 
-1. Copy `.env.example` to `.env` and add SMTP credentials (never commit `.env`)
+1. Copy `.env.example` to `.env` and add Brevo API values (never commit `.env`)
 2. Run `npm install` and `npm start`
 3. Keep `config.js` pointed at `http://localhost:3001` for local development
 4. For production, set `apiBaseUrl` in `config.js` to the deployed API origin

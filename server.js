@@ -3,16 +3,14 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
-const nodemailer = require('nodemailer');
 
 const PORT = Number.parseInt(process.env.PORT, 10) || 3001;
 const DRY_RUN = process.env.EMAIL_DRY_RUN === 'true';
-const EMAIL_USER = process.env.EMAIL_USER || '';
-const EMAIL_PASS = process.env.EMAIL_PASS || '';
+const BREVO_API_KEY = process.env.BREVO_API_KEY || '';
+const BREVO_API_URL = process.env.BREVO_API_URL || 'https://api.brevo.com/v3/smtp/email';
+const EMAIL_FROM = process.env.EMAIL_FROM || '';
+const EMAIL_FROM_NAME = process.env.EMAIL_FROM_NAME || 'Portfolio Contact';
 const EMAIL_TO = process.env.EMAIL_TO || '';
-const SMTP_HOST = process.env.SMTP_HOST || '';
-const SMTP_PORT = Number.parseInt(process.env.SMTP_PORT, 10) || 587;
-const SMTP_SECURE = process.env.SMTP_SECURE === 'true';
 
 const LIMITS = {
   name: 100,
@@ -41,7 +39,7 @@ function parseAllowedOrigins() {
 }
 
 function isMailConfigured() {
-  return Boolean(EMAIL_USER && EMAIL_PASS && EMAIL_TO && SMTP_HOST);
+  return Boolean(BREVO_API_KEY && EMAIL_FROM && EMAIL_TO);
 }
 
 function escapeHtml(value) {
@@ -56,6 +54,10 @@ function escapeHtml(value) {
 function asTrimmedString(value) {
   if (typeof value !== 'string') return '';
   return value.replace(/\0/g, '').trim();
+}
+
+function withoutHeaderBreaks(value) {
+  return String(value).replace(/[\r\n]+/g, ' ').trim();
 }
 
 function isValidEmail(email) {
@@ -130,24 +132,40 @@ function buildHtmlEmail(data) {
   `;
 }
 
-function createTransporter() {
-  if (DRY_RUN) {
-    return nodemailer.createTransport({ jsonTransport: true });
+async function sendViaBrevo(data) {
+  let response;
+  try {
+    response = await fetch(BREVO_API_URL, {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        'api-key': BREVO_API_KEY
+      },
+      body: JSON.stringify({
+        sender: {
+          name: withoutHeaderBreaks(EMAIL_FROM_NAME),
+          email: EMAIL_FROM
+        },
+        to: [{ email: EMAIL_TO }],
+        replyTo: {
+          email: data.email,
+          name: withoutHeaderBreaks(data.name)
+        },
+        subject: `[Portfolio Contact] ${data.subject}`,
+        htmlContent: buildHtmlEmail(data),
+        textContent: buildTextEmail(data)
+      })
+    });
+  } catch (error) {
+    console.error('Brevo API network error:', error && error.message ? error.message : 'unknown error');
+    throw new Error('Brevo API network error');
   }
 
-  if (!isMailConfigured()) {
-    return null;
+  if (!response.ok) {
+    console.error('Brevo API request failed with status', response.status);
+    throw new Error('Brevo API request failed');
   }
-
-  return nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: SMTP_PORT,
-    secure: SMTP_SECURE,
-    auth: {
-      user: EMAIL_USER,
-      pass: EMAIL_PASS
-    }
-  });
 }
 
 const app = express();
@@ -196,8 +214,6 @@ const sendEmailLimiter = rateLimit({
   }
 });
 
-const transporter = createTransporter();
-
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });
@@ -209,22 +225,19 @@ app.post('/send-email', sendEmailLimiter, async (req, res) => {
     return;
   }
 
-  if (!transporter) {
-    console.error('Contact form is not configured: missing SMTP environment variables.');
+  if (DRY_RUN) {
+    res.status(200).json({ success: true, message: 'Message sent successfully.' });
+    return;
+  }
+
+  if (!isMailConfigured()) {
+    console.error('Contact form is not configured: missing Brevo environment variables.');
     res.status(503).json({ success: false, message: GENERIC_SERVER });
     return;
   }
 
   try {
-    await transporter.sendMail({
-      from: `"Portfolio Contact Form" <${EMAIL_USER}>`,
-      to: EMAIL_TO,
-      replyTo: parsed.data.email,
-      subject: `[Portfolio Contact] ${parsed.data.subject}`,
-      text: buildTextEmail(parsed.data),
-      html: buildHtmlEmail(parsed.data)
-    });
-
+    await sendViaBrevo(parsed.data);
     res.status(200).json({ success: true, message: 'Message sent successfully.' });
   } catch (error) {
     console.error('Failed to send contact email:', error && error.message ? error.message : 'unknown error');
@@ -247,7 +260,7 @@ if (require.main === module) {
     if (DRY_RUN) {
       console.log('EMAIL_DRY_RUN is enabled; messages will not be delivered.');
     } else if (!isMailConfigured()) {
-      console.warn('SMTP environment variables are incomplete; POST /send-email will return 503.');
+      console.warn('Brevo environment variables are incomplete; POST /send-email will return 503.');
     }
   });
 }
