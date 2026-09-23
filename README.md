@@ -86,7 +86,7 @@ Also set:
 
 - `PORT` — usually injected by the host; do not hardcode it
 - `FRONTEND_URL` — live frontend origin(s), comma-separated (scheme + host + port only, no path)
-- `TRUST_PROXY` — `true` when the API is behind a reverse proxy
+- `TRUST_PROXY` — `true` when the API is behind a reverse proxy (required so rate limiting uses the visitor IP)
 - `SMTP_PORT`
 - `SMTP_SECURE`
 - `EMAIL_DRY_RUN` — keep `false` when mail should be delivered
