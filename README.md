@@ -47,14 +47,59 @@ Required JSON fields: `name`, `email`, `message`. `subject` is optional.
 
 ### Frontend API URL
 
-`config.js` defaults to `http://localhost:3001` for local development.
+`config.js` defaults to `http://localhost:3001` for local development. Leave it there until the API has a real production origin. Do not invent an API URL.
 
-For production, change `apiBaseUrl` in `config.js` to the deployed API origin. Do not put SMTP passwords in frontend files.
+## Deploying the contact API
 
-### Production notes
+The frontend stays on Vercel as a static site (`vercel.json`). The contact API is a long-running Express process started with `npm start`. Host it on a Node service, not as Vercel serverless functions.
 
-- Frontend (static) and API (Node) are expected to be on different origins.
-- `vercel.json` keeps the Vercel frontend static so `package.json` is not treated as the web app.
-- Set `FRONTEND_URL` to the live frontend origin, for example `https://your-frontend.example.com`.
-- Set `TRUST_PROXY=true` if the API is behind a reverse proxy.
-- `POST /send-email` is limited to 5 requests per 15 minutes per IP.
+### Runtime
+
+- Node.js 18 or later
+- npm 9 or later
+
+### Install and start
+
+```bash
+npm install
+npm start
+```
+
+`npm start` runs `node server.js`. Listen on the host-provided `PORT` (default `3001` if unset). Use that value as the service health-check port.
+
+### Health check
+
+`GET /health` returns `{ "status": "ok" }`.
+
+### Environment variables
+
+Set these in the hosting provider's environment-variable settings. Do not commit `.env` or put real credentials in the repository.
+
+Required to deliver mail:
+
+- `EMAIL_USER`
+- `EMAIL_PASS`
+- `EMAIL_TO`
+- `SMTP_HOST`
+
+Also set:
+
+- `PORT` — usually injected by the host; do not hardcode it
+- `FRONTEND_URL` — live frontend origin(s), comma-separated (scheme + host + port only, no path)
+- `TRUST_PROXY` — `true` when the API is behind a reverse proxy
+- `SMTP_PORT`
+- `SMTP_SECURE`
+- `EMAIL_DRY_RUN` — keep `false` when mail should be delivered
+
+Optional:
+
+- `RATE_LIMIT_MAX` (default 5)
+- `RATE_LIMIT_WINDOW_MS` (default 900000)
+
+SMTP credentials must be configured through the host's environment-variable settings. Do not put passwords in git, `config.js`, or Vercel frontend env vars.
+
+### After the API has a real origin
+
+Change `apiBaseUrl` in `config.js` only after the backend is deployed and that origin is known. Then redeploy the Vercel frontend. Do not put SMTP passwords in frontend files.
+
+`POST /send-email` is limited to 5 requests per 15 minutes per IP unless `RATE_LIMIT_MAX` / `RATE_LIMIT_WINDOW_MS` are overridden.
