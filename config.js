@@ -1,5 +1,4 @@
 window.PORTFOLIO_CONFIG = {
-  // Local default. For production, replace this with your deployed backend origin,
-  // for example: "https://your-contact-api.example.com"
-  apiBaseUrl: "http://localhost:3001"
+  // Production contact API origin on Render.
+  apiBaseUrl: "https://my-portfolio-api-r666.onrender.com"
 };
