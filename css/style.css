@@ -79,6 +79,7 @@ body {
   transition: background-color 0.25s ease, color 0.25s ease;
   max-width: 100%;
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 img {
@@ -445,7 +446,8 @@ section {
 }
 
 section > * {
-  max-width: var(--max-width);
+  max-width: calc(var(--max-width) - 2 * var(--page-pad));
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -459,7 +461,7 @@ section > * {
   text-align: left;
   position: relative;
   display: block;
-  margin: 0 0 28px;
+  margin: 0 auto 28px;
   padding-bottom: 12px;
 }
 
@@ -489,6 +491,10 @@ section > * {
   background: var(--color-bg);
 }
 
+#hero-section > .hero-web {
+  max-width: none;
+}
+
 .hero-web {
   position: absolute;
   inset: 0;
@@ -496,6 +502,7 @@ section > * {
   height: 100%;
   max-width: none;
   margin: 0;
+  padding: 0;
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
@@ -541,7 +548,7 @@ section > * {
   stroke: none;
 }
 
-.hero-content {
+#hero-section .hero-content {
   position: relative;
   z-index: 1;
   max-width: 720px;
@@ -820,12 +827,7 @@ section > * {
 }
 
 .contact-section .section-title {
-  text-align: center;
-}
-
-.contact-section .section-title::after {
-  left: 50%;
-  transform: translateX(-50%);
+  text-align: left;
 }
 
 .contact-intro {
@@ -1427,6 +1429,21 @@ footer,
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
+a.contact-method-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.method-address {
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.98rem;
+  margin: 0 0 12px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 .contact-method-card:hover,
 .contact-method-card:focus-within {
   transform: translateY(-3px);
@@ -1522,24 +1539,6 @@ footer,
   font-weight: 600;
   color: var(--color-text);
   margin-bottom: 8px;
-}
-
-.checkbox-label {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  line-height: 1.5;
-}
-
-.contact_checkbox {
-  width: 18px;
-  height: 18px;
-  margin-top: 2px;
-  flex-shrink: 0;
-  accent-color: var(--color-accent);
 }
 
 .availability-content {
@@ -1978,6 +1977,7 @@ footer,
 
   .project-card,
   .project-img,
+  .contact-method-card,
   .menu a,
   .social-icons a,
   .project-link,

@@ -4,10 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Keith</title>
+    <meta name="description" content="I'm a Software Engineering graduate and Full-Stack Web Developer. I create professional websites and applications with modern technologies.">
+    <link rel="canonical" href="https://my-portfolio-keiths-projects-fc1660a7.vercel.app/">
+    <meta property="og:title" content="Portfolio - Keith">
+    <meta property="og:description" content="I'm a Software Engineering graduate and Full-Stack Web Developer. I create professional websites and applications with modern technologies.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://my-portfolio-keiths-projects-fc1660a7.vercel.app/">
+    <meta property="og:image" content="https://my-portfolio-keiths-projects-fc1660a7.vercel.app/css/images/towTrack.png">
+    <meta property="og:image:alt" content="TowTrack project screenshot from Keith Murimi's portfolio">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Portfolio - Keith">
+    <meta name="twitter:description" content="I'm a Software Engineering graduate and Full-Stack Web Developer. I create professional websites and applications with modern technologies.">
+    <meta name="twitter:image" content="https://my-portfolio-keiths-projects-fc1660a7.vercel.app/css/images/towTrack.png">
     <script>
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         document.documentElement.classList.add('motion-ok');
       }
+      (function () {
+        try {
+          var stored = localStorage.getItem('darkMode');
+          var dark = stored === 'enabled' || (stored !== 'disabled' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) document.documentElement.classList.add('dark-mode');
+        } catch (e) {}
+      })();
     </script>
     <link rel="icon" href="css/images/unnamed.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,11 +75,11 @@
     </header>
     <nav class="side-drawer" id="side-drawer" aria-label="Mobile">
       <button type="button" id="close-drawer" aria-label="Close menu">&times;</button>
-      <a href="index.html" aria-current="page">Home</a>
+      <a href="#hero-section" aria-current="page">Home</a>
       <a href="about.html">About</a>
-      <a href="index.html#Projects">Projects</a>
-      <a href="index.html#Skills">Skills</a>
-      <a href="contact.html">Contact Me</a>
+      <a href="#Projects">Projects</a>
+      <a href="#Skills">Skills</a>
+      <a href="contact.html">Contact</a>
       <button type="button" id="drawer-toggle-dark-mode" aria-label="Switch to dark mode" aria-pressed="false">
         <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i>
       </button>

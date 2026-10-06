@@ -59,29 +59,32 @@ function setToggleButtonState(isDark) {
   updateDarkModeControls(isDark);
 }
 
-function setDarkMode(enabled) {
-  if (enabled) {
-    body.classList.add('dark-mode');
-    localStorage.setItem('darkMode', 'enabled');
-    setToggleButtonState(true);
-  } else {
-    body.classList.remove('dark-mode');
-    localStorage.setItem('darkMode', 'disabled');
-    setToggleButtonState(false);
-  }
+function getPreferredDarkMode() {
+  const stored = localStorage.getItem('darkMode');
+  if (stored === 'enabled') return true;
+  if (stored === 'disabled') return false;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
-const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
-setDarkMode(darkModeEnabled);
+function applyDarkMode(enabled, persist) {
+  document.documentElement.classList.toggle('dark-mode', enabled);
+  body.classList.toggle('dark-mode', enabled);
+  if (persist) {
+    localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
+  }
+  setToggleButtonState(enabled);
+}
+
+applyDarkMode(getPreferredDarkMode(), false);
 
 if (toggleButton) {
   toggleButton.addEventListener('click', () => {
-    setDarkMode(!body.classList.contains('dark-mode'));
+    applyDarkMode(!document.documentElement.classList.contains('dark-mode'), true);
   });
 }
 if (drawerToggle) {
   drawerToggle.addEventListener('click', () => {
-    setDarkMode(!body.classList.contains('dark-mode'));
+    applyDarkMode(!document.documentElement.classList.contains('dark-mode'), true);
   });
 }
 
@@ -438,5 +441,172 @@ function initScrollReveal() {
 
 initHeroWeb();
 initScrollReveal();
+
+function isIndexPath(pathname) {
+  const path = (pathname || '/').replace(/\/+$/, '') || '/';
+  return path === '/' || /\/index\.html$/i.test(path);
+}
+
+function navSectionIdFromLink(link) {
+  const href = link.getAttribute('href');
+  if (!href) return null;
+
+  const url = new URL(href, window.location.href);
+  if (url.hash) return decodeURIComponent(url.hash.slice(1));
+
+  const page = (url.pathname.split('/').pop() || '').toLowerCase();
+  if (page === 'index.html' || page === '') return 'hero-section';
+  return null;
+}
+
+let pinnedNavId = null;
+let pinnedNavUntil = 0;
+let pinnedNavTimer = 0;
+
+function setHomeNavCurrent(sectionId, pinMs = 0) {
+  if (pinMs) {
+    pinnedNavId = sectionId;
+    pinnedNavUntil = Date.now() + pinMs;
+    window.clearTimeout(pinnedNavTimer);
+    pinnedNavTimer = window.setTimeout(() => {
+      pinnedNavId = null;
+      pinnedNavUntil = 0;
+      window.dispatchEvent(new Event('scroll'));
+    }, pinMs);
+  }
+
+  document.querySelectorAll('.menu a, .side-drawer a').forEach((link) => {
+    if (navSectionIdFromLink(link) === sectionId) {
+      link.setAttribute('aria-current', 'page');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  });
+}
+
+function scrollToId(id, behavior) {
+  const target = document.getElementById(id);
+  if (!target) return false;
+
+  const html = document.documentElement;
+  const previousBehavior = html.style.scrollBehavior;
+  const useSmooth = behavior === 'smooth' && !prefersReducedMotion();
+
+  if (!useSmooth) {
+    html.style.scrollBehavior = 'auto';
+  }
+
+  target.scrollIntoView({
+    behavior: useSmooth ? 'smooth' : 'auto',
+    block: 'start'
+  });
+
+  if (!useSmooth) {
+    html.style.scrollBehavior = previousBehavior;
+  }
+
+  return true;
+}
+
+function jumpToLocationHash() {
+  const id = decodeURIComponent((window.location.hash || '').slice(1));
+  if (!id) return;
+  scrollToId(id, 'auto');
+  if (document.getElementById('Projects') && document.getElementById(id)) {
+    setHomeNavCurrent(id, 900);
+  }
+}
+
+function initHashNavigation() {
+  jumpToLocationHash();
+  window.addEventListener('load', jumpToLocationHash);
+  window.addEventListener('hashchange', jumpToLocationHash);
+
+  document.querySelectorAll('.menu a, .side-drawer a, .footer a').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+      }
+
+      const url = new URL(link.href, window.location.href);
+      if (url.origin !== window.location.origin) return;
+
+      const hereIndex = isIndexPath(window.location.pathname);
+      const targetIndex = isIndexPath(url.pathname);
+      const sameDocument = url.pathname === window.location.pathname || (hereIndex && targetIndex);
+      if (!sameDocument) return;
+
+      const hashId = url.hash ? decodeURIComponent(url.hash.slice(1)) : '';
+
+      if (hashId && document.getElementById(hashId)) {
+        event.preventDefault();
+        if (window.location.hash !== `#${hashId}`) {
+          history.pushState(null, '', `#${hashId}`);
+        }
+        scrollToId(hashId, prefersReducedMotion() ? 'auto' : 'smooth');
+        if (document.getElementById('Projects')) {
+          setHomeNavCurrent(hashId, 900);
+        }
+        return;
+      }
+
+      if (hereIndex && !hashId && navSectionIdFromLink(link) === 'hero-section') {
+        event.preventDefault();
+        history.pushState(null, '', window.location.pathname + window.location.search);
+        const html = document.documentElement;
+        const previousBehavior = html.style.scrollBehavior;
+        const useSmooth = !prefersReducedMotion();
+        html.style.scrollBehavior = useSmooth ? previousBehavior : 'auto';
+        window.scrollTo({ top: 0, behavior: useSmooth ? 'smooth' : 'auto' });
+        html.style.scrollBehavior = previousBehavior;
+        setHomeNavCurrent('hero-section', 900);
+      }
+    });
+  });
+}
+
+function initHomeSectionNav() {
+  if (!document.getElementById('Projects')) return;
+
+  const sections = ['hero-section', 'Skills', 'Projects']
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+
+  if (!sections.length) return;
+
+  const updateFromScroll = () => {
+    if (Date.now() < pinnedNavUntil && pinnedNavId) {
+      return;
+    }
+
+    const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 72;
+    const activateBelow = headerHeight + Math.min(160, Math.max(72, window.innerHeight * 0.2));
+    let current = 'hero-section';
+    sections.forEach((section) => {
+      if (section.getBoundingClientRect().top <= activateBelow) {
+        current = section.id;
+      }
+    });
+    setHomeNavCurrent(current);
+  };
+
+  updateFromScroll();
+  window.addEventListener('scroll', updateFromScroll, { passive: true });
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(() => {
+      updateFromScroll();
+    }, {
+      root: null,
+      threshold: [0, 0.2, 0.5, 1],
+      rootMargin: '-20% 0px -55% 0px'
+    });
+
+    sections.forEach((section) => observer.observe(section));
+  }
+}
+
+initHomeSectionNav();
+initHashNavigation();
 
 });
