@@ -28,7 +28,7 @@
         } catch (e) {}
       })();
     </script>
-    <link rel="icon" href="css/images/unnamed.jpg">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -72,8 +72,8 @@
         </div>
       </div>
     </header>
-    <nav class="side-drawer" id="side-drawer" aria-label="Mobile">
-      <button type="button" id="close-drawer" aria-label="Close menu">&times;</button>
+    <nav class="side-drawer" id="side-drawer" aria-label="Mobile navigation">
+      <button type="button" id="close-drawer" aria-label="Close menu"><span aria-hidden="true">&times;</span></button>
       <a href="index.html">Home</a>
       <a href="about.html" aria-current="page">About</a>
       <a href="index.html#Projects">Projects</a>
@@ -83,6 +83,7 @@
         <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i>
       </button>
     </nav>
+    <div class="drawer-backdrop" id="drawer-backdrop" aria-hidden="true"></div>
 
     <main id="main-content" tabindex="-1">
     <section id="hero-section">
@@ -97,7 +98,7 @@
       <h2 class="section-title">My Story</h2>
       <div class="story-content">
         <div class="story-image">
-          <img src="css/images/FB_IMG_1474305737867.jpg" alt="Keith Murimi" class="profile-img">
+          <img src="css/images/FB_IMG_1474305737867.jpg" alt="Keith Murimi" class="profile-img" width="720" height="934">
         </div>
         <div class="story-text">
           <p class="story-intro">Hello! I'm Keith Murimi, a Software Engineering graduate based in Nairobi, Kenya.</p>
@@ -112,7 +113,7 @@
       <div class="education-grid">
         <div class="education-item">
           <div class="education-icon">
-            <i class="fa-solid fa-graduation-cap"></i>
+            <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
           </div>
           <div class="education-content">
             <h3>Software Engineering</h3>
@@ -122,7 +123,7 @@
         </div>
         <div class="education-item">
           <div class="education-icon">
-            <i class="fa-solid fa-code"></i>
+            <i class="fa-solid fa-code" aria-hidden="true"></i>
           </div>
           <div class="education-content">
             <h3>Full-Stack Development</h3>
@@ -138,28 +139,28 @@
       <div class="interests-grid">
         <div class="interest-item">
           <div class="interest-icon">
-            <i class="fa-solid fa-utensils"></i>
+            <i class="fa-solid fa-utensils" aria-hidden="true"></i>
           </div>
           <h3>Cooking</h3>
           <p>Exploring new recipes and experimenting with flavors. I love creating dishes that bring people together.</p>
         </div>
         <div class="interest-item">
           <div class="interest-icon">
-            <i class="fa-solid fa-gamepad"></i>
+            <i class="fa-solid fa-gamepad" aria-hidden="true"></i>
           </div>
           <h3>Gaming</h3>
           <p>From strategy games to RPGs, I enjoy immersive experiences that challenge the mind and spark creativity.</p>
         </div>
         <div class="interest-item">
           <div class="interest-icon">
-            <i class="fa-solid fa-laptop-code"></i>
+            <i class="fa-solid fa-laptop-code" aria-hidden="true"></i>
           </div>
           <h3>Coding</h3>
           <p>Building projects, learning new technologies, and contributing to open-source communities.</p>
         </div>
         <div class="interest-item">
           <div class="interest-icon">
-            <i class="fa-solid fa-book"></i>
+            <i class="fa-solid fa-book" aria-hidden="true"></i>
           </div>
           <h3>Learning</h3>
           <p>Constantly expanding my knowledge in technology, design, and emerging trends in software development.</p>
@@ -172,28 +173,28 @@
       <div class="values-grid">
         <div class="value-item">
           <div class="value-icon">
-            <i class="fa-solid fa-lightbulb"></i>
+            <i class="fa-solid fa-lightbulb" aria-hidden="true"></i>
           </div>
           <h3>Innovation</h3>
           <p>Always seeking creative solutions and pushing the boundaries of what's possible.</p>
         </div>
         <div class="value-item">
           <div class="value-icon">
-            <i class="fa-solid fa-users"></i>
+            <i class="fa-solid fa-users" aria-hidden="true"></i>
           </div>
           <h3>Collaboration</h3>
           <p>Believing in the power of teamwork and diverse perspectives to create better solutions.</p>
         </div>
         <div class="value-item">
           <div class="value-icon">
-            <i class="fa-solid fa-rocket"></i>
+            <i class="fa-solid fa-rocket" aria-hidden="true"></i>
           </div>
           <h3>Growth</h3>
           <p>Committed to continuous learning and personal development in an ever-evolving field.</p>
         </div>
         <div class="value-item">
           <div class="value-icon">
-            <i class="fa-solid fa-heart"></i>
+            <i class="fa-solid fa-heart" aria-hidden="true"></i>
           </div>
           <h3>Passion</h3>
           <p>Approaching every project with enthusiasm and dedication to deliver exceptional results.</p>
@@ -247,12 +248,12 @@
     <section id="Skills" class="skills-section">
       <h2 class="section-title">Tech Stack</h2>
       <div class="skills-grid">
-        <div class="skill-item"><i class="fa-brands fa-html5"></i><span>HTML5</span></div>
-        <div class="skill-item"><i class="fa-brands fa-css3-alt"></i><span>CSS</span></div>
-        <div class="skill-item"><i class="fa-brands fa-js"></i><span>JavaScript</span></div>
-        <div class="skill-item"><i class="fa-brands fa-react"></i><span>React</span></div>
-        <div class="skill-item"><i class="fa-brands fa-python"></i><span>Python</span></div>
-        <div class="skill-item"><i class="fa-brands fa-git-alt"></i><span>Git</span></div>
+        <div class="skill-item"><i class="fa-brands fa-html5" aria-hidden="true"></i><span>HTML5</span></div>
+        <div class="skill-item"><i class="fa-brands fa-css3-alt" aria-hidden="true"></i><span>CSS</span></div>
+        <div class="skill-item"><i class="fa-brands fa-js" aria-hidden="true"></i><span>JavaScript</span></div>
+        <div class="skill-item"><i class="fa-brands fa-react" aria-hidden="true"></i><span>React</span></div>
+        <div class="skill-item"><i class="fa-brands fa-python" aria-hidden="true"></i><span>Python</span></div>
+        <div class="skill-item"><i class="fa-brands fa-git-alt" aria-hidden="true"></i><span>Git</span></div>
       </div>
     </section>
     </main>
@@ -271,7 +272,7 @@
         </div>
         
         <div class="footer-section">
-          <h4 class="footer-subtitle">Contact Info</h4>
+          <h3 class="footer-subtitle">Contact Info</h3>
           <div class="footer-contact">
             <div class="contact-item">
               <i class="fa-solid fa-envelope" aria-hidden="true"></i>
@@ -298,11 +299,11 @@
       
       <div class="footer-bottom">
         <p class="footer-text">&copy; <span id="current-year"></span> Keith Murimi. All rights reserved.</p>
-        <p class="footer-made-with">Made with <i class="fa-solid fa-heart"></i> and lots of coffee</p>
+        <p class="footer-made-with">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i> and lots of coffee</p>
       </div>
       
       <button type="button" id="back-to-top" class="back-to-top" aria-label="Back to top">
-        <i class="fa-solid fa-arrow-up"></i>
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
       </button>
     </footer>
     <script src="config.js"></script>

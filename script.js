@@ -91,20 +91,59 @@ if (drawerToggle) {
 const hamburger = document.getElementById('hamburger-menu');
 const drawer = document.getElementById('side-drawer');
 const closeDrawer = document.getElementById('close-drawer');
+const drawerBackdrop = document.getElementById('drawer-backdrop');
+const drawerMedia = window.matchMedia('(max-width: 800px)');
 
 if (hamburger && drawer && closeDrawer) {
-  function setDrawerOpen(open) {
-    drawer.classList.toggle('open', open);
-    document.body.classList.toggle('drawer-open', open);
-    hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
-    hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  const drawerInertTargets = () =>
+    document.querySelectorAll('.skip-link, header, main, footer, .back-to-top');
 
-    if (open) {
-      closeDrawer.focus();
+  function getDrawerFocusable() {
+    return Array.from(
+      drawer.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')
+    ).filter((el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true');
+  }
+
+  function setPageInert(inert) {
+    drawerInertTargets().forEach((el) => {
+      if (inert) {
+        el.setAttribute('inert', '');
+      } else {
+        el.removeAttribute('inert');
+      }
+    });
+  }
+
+  function setDrawerScrollLock(lock) {
+    const html = document.documentElement;
+    if (lock) {
+      const gap = window.innerWidth - html.clientWidth;
+      html.classList.add('drawer-open');
+      document.body.classList.add('drawer-open');
+      html.style.paddingRight = gap > 0 ? `${gap}px` : '';
       return;
     }
 
-    if (document.activeElement && drawer.contains(document.activeElement)) {
+    html.classList.remove('drawer-open');
+    document.body.classList.remove('drawer-open');
+    html.style.paddingRight = '';
+  }
+
+  function setDrawerOpen(open) {
+    const shouldOpen = Boolean(open) && drawerMedia.matches;
+    drawer.classList.toggle('open', shouldOpen);
+    setDrawerScrollLock(shouldOpen);
+    hamburger.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+    hamburger.setAttribute('aria-label', shouldOpen ? 'Close menu' : 'Open menu');
+
+    if (shouldOpen) {
+      closeDrawer.focus();
+      setPageInert(true);
+      return;
+    }
+
+    setPageInert(false);
+    if (hamburger.offsetParent !== null) {
       hamburger.focus();
     }
   }
@@ -115,6 +154,12 @@ if (hamburger && drawer && closeDrawer) {
   closeDrawer.addEventListener('click', () => {
     setDrawerOpen(false);
   });
+
+  if (drawerBackdrop) {
+    drawerBackdrop.addEventListener('click', () => {
+      setDrawerOpen(false);
+    });
+  }
 
   // close drawer when clicking on a link
   drawer.querySelectorAll('a').forEach(link => {
@@ -133,10 +178,45 @@ if (hamburger && drawer && closeDrawer) {
   });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && drawer.classList.contains('open')) {
+    if (!drawer.classList.contains('open')) return;
+
+    if (e.key === 'Escape') {
       setDrawerOpen(false);
+      return;
+    }
+
+    if (e.key !== 'Tab') return;
+
+    const focusable = getDrawerFocusable();
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = document.activeElement;
+
+    if (e.shiftKey && (active === first || !drawer.contains(active))) {
+      e.preventDefault();
+      last.focus();
+      return;
+    }
+
+    if (!e.shiftKey && (active === last || !drawer.contains(active))) {
+      e.preventDefault();
+      first.focus();
     }
   });
+
+  const syncDrawerToViewport = () => {
+    if (!drawerMedia.matches && drawer.classList.contains('open')) {
+      setDrawerOpen(false);
+    }
+  };
+
+  if (typeof drawerMedia.addEventListener === 'function') {
+    drawerMedia.addEventListener('change', syncDrawerToViewport);
+  } else if (typeof drawerMedia.addListener === 'function') {
+    drawerMedia.addListener(syncDrawerToViewport);
+  }
 }
 
 function setContactStatus(statusEl, type, message) {
@@ -146,13 +226,26 @@ function setContactStatus(statusEl, type, message) {
   if (type) statusEl.classList.add(type);
 }
 
+function clearContactFieldValidity(form) {
+  form.querySelectorAll('[aria-invalid]').forEach((field) => {
+    field.removeAttribute('aria-invalid');
+  });
+}
+
+function markContactFieldInvalid(field) {
+  if (!field) return;
+  field.setAttribute('aria-invalid', 'true');
+  field.focus();
+}
+
 function bindContactForm(form) {
   const submitButton = form.querySelector('.contact_button');
-  const statusEl = form.querySelector('.contact-status') || document.getElementById('contact-status');
+  const statusEl = form.querySelector('.contact-status');
   if (!submitButton) return;
 
   const originalButtonHtml = submitButton.innerHTML;
   let isSubmitting = false;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -164,15 +257,33 @@ function bindContactForm(form) {
     const subject = (formData.get('subject') || '').toString().trim();
     const projectType = (formData.get('project-type') || '').toString().trim();
     const message = (formData.get('message') || '').toString().trim();
+    const nameField = form.querySelector('[name="name"]');
+    const emailField = form.querySelector('[name="email"]');
+    const messageField = form.querySelector('[name="message"]');
 
-    if (!name || !email || !message) {
-      setContactStatus(statusEl, 'is-error', 'Please fill in your name, email, and message.');
+    clearContactFieldValidity(form);
+
+    if (!name) {
+      setContactStatus(statusEl, 'is-error', 'Please enter your name, email, and message.');
+      markContactFieldInvalid(nameField);
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      setContactStatus(statusEl, 'is-error', 'Please enter your name, email, and message.');
+      markContactFieldInvalid(emailField);
+      return;
+    }
+
     if (!emailRegex.test(email)) {
       setContactStatus(statusEl, 'is-error', 'Please enter a valid email address.');
+      markContactFieldInvalid(emailField);
+      return;
+    }
+
+    if (!message) {
+      setContactStatus(statusEl, 'is-error', 'Please enter your name, email, and message.');
+      markContactFieldInvalid(messageField);
       return;
     }
 
@@ -203,16 +314,26 @@ function bindContactForm(form) {
 
       if (response.ok && result.success) {
         form.reset();
-        setContactStatus(statusEl, 'is-success', result.message || 'Thank you for reaching out! I\'ll get back to you soon.');
+        clearContactFieldValidity(form);
+        setContactStatus(
+          statusEl,
+          'is-success',
+          result.message || "Thank you for reaching out! I'll get back to you soon."
+        );
+        if (statusEl) statusEl.focus();
       } else if (response.status === 429) {
         setContactStatus(statusEl, 'is-error', result.message || 'Too many messages. Please try again later.');
+        if (statusEl) statusEl.focus();
       } else if (response.status >= 400 && response.status < 500) {
         setContactStatus(statusEl, 'is-error', result.message || 'Please check the information you entered.');
+        if (statusEl) statusEl.focus();
       } else {
         setContactStatus(statusEl, 'is-error', result.message || 'Unable to send your message right now. Please try again later.');
+        if (statusEl) statusEl.focus();
       }
     } catch (error) {
       setContactStatus(statusEl, 'is-error', 'Unable to send your message right now. Please try again later.');
+      if (statusEl) statusEl.focus();
     } finally {
       isSubmitting = false;
       form.removeAttribute('aria-busy');
@@ -447,6 +568,12 @@ function isIndexPath(pathname) {
   return path === '/' || /\/index\.html$/i.test(path);
 }
 
+const HOME_NAV_SECTION_IDS = ['hero-section', 'Skills', 'Projects'];
+
+function isHomeNavSection(id) {
+  return HOME_NAV_SECTION_IDS.includes(id);
+}
+
 function navSectionIdFromLink(link) {
   const href = link.getAttribute('href');
   if (!href) return null;
@@ -508,11 +635,23 @@ function scrollToId(id, behavior) {
   return true;
 }
 
-function jumpToLocationHash() {
+function jumpToLocationHash(options = {}) {
   const id = decodeURIComponent((window.location.hash || '').slice(1));
-  if (!id) return;
+  if (!id) {
+    pinnedNavId = null;
+    pinnedNavUntil = 0;
+    if (options.fromHistory && document.getElementById('Projects') && isIndexPath(window.location.pathname)) {
+      const html = document.documentElement;
+      const previousBehavior = html.style.scrollBehavior;
+      html.style.scrollBehavior = 'auto';
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      html.style.scrollBehavior = previousBehavior;
+      setHomeNavCurrent('hero-section');
+    }
+    return;
+  }
   scrollToId(id, 'auto');
-  if (document.getElementById('Projects') && document.getElementById(id)) {
+  if (document.getElementById('Projects') && isHomeNavSection(id)) {
     setHomeNavCurrent(id, 900);
   }
 }
@@ -520,7 +659,8 @@ function jumpToLocationHash() {
 function initHashNavigation() {
   jumpToLocationHash();
   window.addEventListener('load', jumpToLocationHash);
-  window.addEventListener('hashchange', jumpToLocationHash);
+  window.addEventListener('hashchange', () => jumpToLocationHash({ fromHistory: true }));
+  window.addEventListener('popstate', () => jumpToLocationHash({ fromHistory: true }));
 
   document.querySelectorAll('.menu a, .side-drawer a, .footer a').forEach((link) => {
     link.addEventListener('click', (event) => {
@@ -544,7 +684,7 @@ function initHashNavigation() {
           history.pushState(null, '', `#${hashId}`);
         }
         scrollToId(hashId, prefersReducedMotion() ? 'auto' : 'smooth');
-        if (document.getElementById('Projects')) {
+        if (document.getElementById('Projects') && isHomeNavSection(hashId)) {
           setHomeNavCurrent(hashId, 900);
         }
         return;

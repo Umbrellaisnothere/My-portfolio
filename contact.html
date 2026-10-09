@@ -28,7 +28,7 @@
         } catch (e) {}
       })();
     </script>
-    <link rel="icon" href="css/images/unnamed.jpg">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -72,8 +72,8 @@
         </div>
       </div>
     </header>
-    <nav class="side-drawer" id="side-drawer" aria-label="Mobile">
-      <button type="button" id="close-drawer" aria-label="Close menu">&times;</button>
+    <nav class="side-drawer" id="side-drawer" aria-label="Mobile navigation">
+      <button type="button" id="close-drawer" aria-label="Close menu"><span aria-hidden="true">&times;</span></button>
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="index.html#Projects">Projects</a>
@@ -83,6 +83,7 @@
         <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i>
       </button>
     </nav>
+    <div class="drawer-backdrop" id="drawer-backdrop" aria-hidden="true"></div>
 
     <main id="main-content" tabindex="-1">
     <section id="hero-section">
@@ -140,7 +141,7 @@
       <p class="contact-intro">Have a specific project in mind? Let's discuss how we can work together to bring your vision to life.</p>
 
       <div class="contact-form-container">
-        <form action="#" class="contact_form" id="contact-form">
+        <form action="#" class="contact_form" id="contact-form" novalidate>
           <div class="form-row">
             <div class="form-group">
               <label for="name" class="form-label">Full Name *</label>
@@ -180,7 +181,7 @@
             Send Message
           </button>
 
-          <p id="contact-status" class="contact-status" role="status" aria-live="polite"></p>
+          <p id="contact-status" class="contact-status" role="status" aria-live="polite" tabindex="-1"></p>
         </form>
       </div>
     </section>
@@ -190,7 +191,7 @@
       <div class="availability-content">
         <div class="availability-card">
           <div class="availability-icon">
-            <i class="fa-solid fa-calendar-check"></i>
+            <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
           </div>
           <h3>Currently Available</h3>
           <p>I'm accepting new projects and collaborations. Let's discuss how we can work together!</p>
@@ -202,21 +203,21 @@
         
         <div class="availability-details">
           <div class="detail-item">
-            <i class="fa-solid fa-clock"></i>
+            <i class="fa-solid fa-clock" aria-hidden="true"></i>
             <div>
               <h4>Response Time</h4>
               <p>Within 24 hours for all inquiries</p>
             </div>
           </div>
           <div class="detail-item">
-            <i class="fa-solid fa-globe"></i>
+            <i class="fa-solid fa-globe" aria-hidden="true"></i>
             <div>
               <h4>Time Zone</h4>
               <p>East Africa Time (EAT)</p>
             </div>
           </div>
           <div class="detail-item">
-            <i class="fa-solid fa-language"></i>
+            <i class="fa-solid fa-language" aria-hidden="true"></i>
             <div>
               <h4>Languages</h4>
               <p>English (Fluent)</p>
@@ -241,7 +242,7 @@
         </div>
         
         <div class="footer-section">
-          <h4 class="footer-subtitle">Contact Info</h4>
+          <h3 class="footer-subtitle">Contact Info</h3>
           <div class="footer-contact">
             <div class="contact-item">
               <i class="fa-solid fa-envelope" aria-hidden="true"></i>
@@ -268,11 +269,11 @@
       
       <div class="footer-bottom">
         <p class="footer-text">&copy; <span id="current-year"></span> Keith Murimi. All rights reserved.</p>
-        <p class="footer-made-with">Made with <i class="fa-solid fa-heart"></i> and lots of coffee</p>
+        <p class="footer-made-with">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i> and lots of coffee</p>
       </div>
       
       <button type="button" id="back-to-top" class="back-to-top" aria-label="Back to top">
-        <i class="fa-solid fa-arrow-up"></i>
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
       </button>
     </footer>
     <script src="config.js"></script>
