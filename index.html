@@ -28,7 +28,7 @@
         } catch (e) {}
       })();
     </script>
-    <link rel="icon" href="css/images/unnamed.jpg">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -73,8 +73,8 @@
         </div>
       </div>
     </header>
-    <nav class="side-drawer" id="side-drawer" aria-label="Mobile">
-      <button type="button" id="close-drawer" aria-label="Close menu">&times;</button>
+    <nav class="side-drawer" id="side-drawer" aria-label="Mobile navigation">
+      <button type="button" id="close-drawer" aria-label="Close menu"><span aria-hidden="true">&times;</span></button>
       <a href="#hero-section" aria-current="page">Home</a>
       <a href="about.html">About</a>
       <a href="#Projects">Projects</a>
@@ -84,6 +84,7 @@
         <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i>
       </button>
     </nav>
+    <div class="drawer-backdrop" id="drawer-backdrop" aria-hidden="true"></div>
 
     <main id="main-content" tabindex="-1">
     <section id="hero-section">
@@ -127,7 +128,7 @@
       </div>
       <div class="hero-content">
         <h1 class="hero-name"><span class="hero-word">Keith</span> <span class="hero-word">Murimi</span></h1>
-        <p class="hero-location"><i class="fa-solid fa-map-marker-alt"></i> Nairobi, Kenya</p>
+        <p class="hero-location"><i class="fa-solid fa-map-marker-alt" aria-hidden="true"></i> Nairobi, Kenya</p>
         <p class="hero-description">I'm a Software Engineering graduate and Full-Stack Web Developer. I create professional websites and applications with modern technologies.</p>
       </div>
     </section>
@@ -135,12 +136,12 @@
     <section id="Skills" class="skills-section">
       <h2 class="section-title">Tech Stack</h2>
       <div class="skills-grid">
-        <div class="skill-item"><i class="fa-brands fa-html5"></i><span>HTML5</span></div>
-        <div class="skill-item"><i class="fa-brands fa-css3-alt"></i><span>CSS</span></div>
-        <div class="skill-item"><i class="fa-brands fa-js"></i><span>JavaScript</span></div>
-        <div class="skill-item"><i class="fa-brands fa-react"></i><span>React</span></div>
-        <div class="skill-item"><i class="fa-brands fa-python"></i><span>Python</span></div>
-        <div class="skill-item"><i class="fa-brands fa-git-alt"></i><span>Git</span></div>
+        <div class="skill-item"><i class="fa-brands fa-html5" aria-hidden="true"></i><span>HTML5</span></div>
+        <div class="skill-item"><i class="fa-brands fa-css3-alt" aria-hidden="true"></i><span>CSS</span></div>
+        <div class="skill-item"><i class="fa-brands fa-js" aria-hidden="true"></i><span>JavaScript</span></div>
+        <div class="skill-item"><i class="fa-brands fa-react" aria-hidden="true"></i><span>React</span></div>
+        <div class="skill-item"><i class="fa-brands fa-python" aria-hidden="true"></i><span>Python</span></div>
+        <div class="skill-item"><i class="fa-brands fa-git-alt" aria-hidden="true"></i><span>Git</span></div>
       </div>
     </section>
 
@@ -151,7 +152,7 @@
       <div class="projects-grid">
         <div class="project-card">
           <div class="project-image">
-            <img src="css/images/E-commerce website.png" alt="TasteNshop Project" class="project-img">
+            <img src="css/images/tastenshop.webp" alt="TasteNshop Project" class="project-img" width="1366" height="768" loading="lazy">
           </div>
           <div class="project-content">
             <h3 class="project-title">TasteNshop</h3>
@@ -168,8 +169,16 @@
         </div>
 
         <div class="project-card">
-          <div class="project-image">
-            <img src="css/images/Rock, Paper and Scissors.png" alt="Rock, Paper, and Scissors game" class="project-img">
+          <div class="project-image project-preview">
+            <img src="css/images/rock-paper-scissors.webp" alt="" class="project-img project-preview-fallback" width="1365" height="619" loading="lazy" aria-hidden="true">
+            <iframe
+              class="project-preview-frame"
+              src="https://rock-paper-scissors-murex-omega.vercel.app/"
+              title="Live preview of Rock, Paper and Scissors"
+              loading="lazy"
+              tabindex="-1"
+              aria-hidden="true"
+            ></iframe>
           </div>
           <div class="project-content">
             <h3 class="project-title">Rock, Paper and Scissors Game</h3>
@@ -184,8 +193,16 @@
         </div>
         
         <div class="project-card">
-          <div class="project-image">
-            <img src="css/images/towTrack.png" alt="TowTrack Project" class="project-img">
+          <div class="project-image project-preview">
+            <img src="css/images/towtrack.webp" alt="" class="project-img project-preview-fallback" width="1351" height="616" loading="lazy" aria-hidden="true">
+            <iframe
+              class="project-preview-frame"
+              src="https://tow-track.vercel.app/"
+              title="Live preview of TowTrack"
+              loading="lazy"
+              tabindex="-1"
+              aria-hidden="true"
+            ></iframe>
           </div>
           <div class="project-content">
             <h3 class="project-title">TowTrack</h3>
@@ -216,15 +233,24 @@
     <section class="contact-section" id="Contact">
       <h2 class="section-title">Get In Touch</h2>
       <p class="contact-intro">Have a project in mind or just want to say hello? I'd love to hear from you!</p>
-      <form action="#" class="contact_form" id="contact-form">
-        <label class="visually-hidden" for="home-name">Your Name</label>
-        <input type="text" id="home-name" name="name" placeholder="Your Name" class="contact_input" required maxlength="100" autocomplete="name">
-        <label class="visually-hidden" for="home-email">Your Email</label>
-        <input type="email" id="home-email" name="email" placeholder="Your Email" class="contact_input" required maxlength="254" autocomplete="email">
-        <label class="visually-hidden" for="home-message">Your Message</label>
-        <textarea id="home-message" name="message" placeholder="Your Message" class="contact_input" required maxlength="4000"></textarea>
-        <button type="submit" class="contact_button">Send Message</button>
-        <p id="contact-status" class="contact-status" role="status" aria-live="polite"></p>
+      <form action="#" class="contact_form" id="home-contact-form" novalidate>
+        <div class="form-group">
+          <label for="home-name" class="form-label">Full Name *</label>
+          <input type="text" id="home-name" name="name" placeholder="Your full name" class="contact_input" required maxlength="100" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="home-email" class="form-label">Email Address *</label>
+          <input type="email" id="home-email" name="email" placeholder="your.email@example.com" class="contact_input" required maxlength="254" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="home-message" class="form-label">Message *</label>
+          <textarea id="home-message" name="message" placeholder="How can I help?" class="contact_input" rows="5" required maxlength="4000"></textarea>
+        </div>
+        <button type="submit" class="contact_button">
+          <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+          Send Message
+        </button>
+        <p id="home-contact-status" class="contact-status" role="status" aria-live="polite" tabindex="-1"></p>
       </form>
     </section>
     </main>
@@ -243,7 +269,7 @@
         </div>
         
         <div class="footer-section">
-          <h4 class="footer-subtitle">Contact Info</h4>
+          <h3 class="footer-subtitle">Contact Info</h3>
           <div class="footer-contact">
             <div class="contact-item">
               <i class="fa-solid fa-envelope" aria-hidden="true"></i>
@@ -270,11 +296,11 @@
       
       <div class="footer-bottom">
         <p class="footer-text">&copy; <span id="current-year"></span> Keith Murimi. All rights reserved.</p>
-        <p class="footer-made-with">Made with <i class="fa-solid fa-heart"></i> and lots of coffee</p>
+        <p class="footer-made-with">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i> and lots of coffee</p>
       </div>
       
       <button type="button" id="back-to-top" class="back-to-top" aria-label="Back to top">
-        <i class="fa-solid fa-arrow-up"></i>
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
       </button>
     </footer>
     

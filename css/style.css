@@ -11,6 +11,7 @@
   --color-border: #ddd9d4;
   --color-accent: #c8102e;
   --color-accent-soft: rgba(200, 16, 46, 0.1);
+  --color-nav-current: var(--color-accent);
   --color-header-bg: rgba(246, 245, 243, 0.92);
   --color-header-text: #141414;
   --color-footer-bg: #121212;
@@ -41,6 +42,7 @@
   --color-border: #2c2c30;
   --color-accent: #e11d2e;
   --color-accent-soft: rgba(225, 29, 46, 0.14);
+  --color-nav-current: #ff1d2e;
   --color-header-bg: rgba(12, 12, 13, 0.92);
   --color-header-text: #f4f2f0;
   --color-footer-bg: #080809;
@@ -163,12 +165,12 @@ select.contact_input {
 
 .menu a[aria-current="page"] {
   opacity: 1;
-  color: var(--color-accent);
-  border-bottom-color: var(--color-accent);
+  color: var(--color-nav-current);
+  border-bottom-color: var(--color-nav-current);
 }
 
 .side-drawer a[aria-current="page"] {
-  color: var(--color-accent);
+  color: var(--color-nav-current);
 }
 
 /* ----- Header ----- */
@@ -336,12 +338,15 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
+  flex-shrink: 0;
   z-index: 1100;
 }
 
@@ -351,6 +356,7 @@ header {
   background: var(--color-header-text);
   margin: 3px 0;
   border-radius: 2px;
+  pointer-events: none;
   transition: background-color 0.2s ease;
 }
 
@@ -370,12 +376,13 @@ header {
   padding: 64px 24px 24px;
   z-index: 2000;
   visibility: hidden;
-  transition: left 0.28s ease, visibility 0.28s ease;
+  transition: left 0.28s ease, visibility 0s linear 0.28s;
 }
 
 .side-drawer.open {
   left: 0;
   visibility: visible;
+  transition: left 0.28s ease, visibility 0s;
 }
 
 .side-drawer a {
@@ -402,10 +409,36 @@ header {
   font-size: 2rem;
   line-height: 1;
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 8px;
+  right: 8px;
   cursor: pointer;
-  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+}
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1900;
+  background: rgba(18, 18, 18, 0.48);
+  background: color-mix(in srgb, var(--color-footer-bg) 48%, transparent);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.28s ease, visibility 0s linear 0.28s;
+}
+
+body.drawer-open .drawer-backdrop {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.28s ease, visibility 0s;
 }
 
 #close-drawer:hover,
@@ -432,6 +465,7 @@ header {
   color: var(--color-text);
 }
 
+html.drawer-open,
 body.drawer-open {
   overflow: hidden;
 }
@@ -654,6 +688,8 @@ section > * {
 }
 
 .project-card {
+  display: flex;
+  flex-direction: column;
   background: var(--color-surface);
   border-radius: var(--radius);
   overflow: hidden;
@@ -683,12 +719,40 @@ section > * {
   transition: transform 0.3s ease;
 }
 
-.project-card:hover .project-img,
-.project-card:focus-within .project-img {
+.project-card:hover .project-image:not(.project-preview) .project-img,
+.project-card:focus-within .project-image:not(.project-preview) .project-img {
   transform: scale(1.03);
 }
 
+.project-preview {
+  container-type: size;
+  position: relative;
+  pointer-events: none;
+}
+
+.project-preview-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.project-preview-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 1280px;
+  height: 720px;
+  border: 0;
+  background: transparent;
+  transform-origin: top left;
+  transform: scale(max(calc(100cqw / 1280px), calc(100cqh / 720px)));
+}
+
 .project-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding: 22px;
 }
 
@@ -729,6 +793,8 @@ section > * {
   font-weight: 600;
   font-size: 0.9rem;
   display: inline-block;
+  margin-top: auto;
+  align-self: flex-start;
   border-bottom: 2px solid transparent;
   transition: color 0.2s ease, border-color 0.2s ease;
 }
@@ -821,7 +887,7 @@ section > * {
 /* ----- Home contact ----- */
 
 .contact-section {
-  text-align: center;
+  text-align: left;
   background: var(--color-bg);
   border-top: 1px solid var(--color-border);
 }
@@ -833,19 +899,29 @@ section > * {
 .contact-intro {
   color: var(--color-text-muted);
   font-size: 1.05rem;
-  margin: 0 auto 32px;
+  margin: 0 0 32px;
   max-width: 520px;
   line-height: 1.6;
 }
 
 .contact_form {
   max-width: 480px;
-  margin: 0 auto;
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
   text-align: left;
   width: 100%;
+}
+
+.contact-section .contact_form {
+  margin-left: 0;
+  margin-right: auto;
+  max-width: 480px;
+}
+
+.contact-form-section .contact_form {
+  max-width: none;
 }
 
 .contact_input,
@@ -865,9 +941,23 @@ section > * {
 }
 
 .contact_input:focus,
-.contact_form textarea:focus {
+.contact_input:focus-visible,
+.contact_form textarea:focus,
+.contact_form textarea:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px var(--color-accent-soft);
+  box-shadow: none;
+}
+
+.contact_input[aria-invalid="true"],
+.contact_form textarea[aria-invalid="true"] {
+  border-color: #8a1f1f;
+}
+
+.dark-mode .contact_input[aria-invalid="true"],
+.dark-mode .contact_form textarea[aria-invalid="true"] {
+  border-color: #f0b4b4;
 }
 
 .contact_form textarea {
@@ -892,7 +982,8 @@ section > * {
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.contact_button:hover {
+.contact_button:hover,
+.contact_button:focus-visible {
   background: var(--color-accent);
   transform: translateY(-1px);
 }
@@ -926,6 +1017,15 @@ section > * {
   color: var(--color-text);
   background: var(--color-bg-alt);
   border: 1px solid var(--color-border);
+}
+
+.contact-status:focus {
+  outline: none;
+}
+
+.contact-status:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
 }
 
 .contact-success,
@@ -1524,12 +1624,12 @@ a.contact-method-card {
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 8px;
+  gap: 16px;
+  margin-bottom: 0;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 0;
   min-width: 0;
 }
 
@@ -1684,7 +1784,7 @@ a.contact-method-card {
 
   .form-row {
     grid-template-columns: 1fr;
-    gap: 0;
+    gap: 16px;
   }
 
   .education-grid,
@@ -1985,8 +2085,10 @@ a.contact-method-card {
   .back-to-top,
   #toggle-dark-mode,
   .cta-button,
-  .side-drawer {
+  .side-drawer,
+  .drawer-backdrop {
     transition-duration: 0.01s;
+    transition-delay: 0s;
   }
 }
 
