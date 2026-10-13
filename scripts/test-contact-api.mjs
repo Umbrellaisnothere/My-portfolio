@@ -19,12 +19,12 @@ function assert(condition, message) {
 function assertDesignedHtml(html, label) {
   assert(typeof html === 'string' && html.trim().length > 0, `${label}: htmlContent must be non-empty`);
   assert(
-    html.includes('color:#d71938;">01 /</span>') && html.includes('> Incoming</span>'),
-    `${label}: hero should include the 01 / Incoming kicker markup`
+    html.includes('color:#d71938;">01 /</span>') && html.includes('> Correspondence</span>'),
+    `${label}: masthead should include the 01 / Correspondence kicker markup`
   );
   assert(
-    html.includes('font-size:36px') && html.includes('>Message</div>'),
-    `${label}: hero should include the 36px Message heading`
+    html.includes('font-size:28px') && html.includes('>A new conversation.</div>'),
+    `${label}: cream body should include the 28px A new conversation. heading`
   );
   assert(html.includes('#3d7eff'), `${label}: HTML should include the blue accent`);
   assert(html.includes('bgcolor="#d71938"'), `${label}: HTML should include the red rail`);
@@ -33,6 +33,18 @@ function assertDesignedHtml(html, label) {
     html.includes('width="600"') && html.includes('max-width:600px'),
     `${label}: HTML should use an approximately 600px table layout`
   );
+  assert(html.includes('mailto:'), `${label}: HTML should include a mailto reply link`);
+  assert(html.includes('>Reply to '), `${label}: HTML should include the Reply to label`);
+  assert(
+    html.includes('bgcolor="#d71938" style="background-color:#d71938;padding:14px 22px;"'),
+    `${label}: reply button cell should own the red background and padding`
+  );
+  assert(
+    html.includes('width="100%" bgcolor="#f5f1e8"'),
+    `${label}: inner letter table should have an explicit cream background`
+  );
+  assert(html.includes('#ebe6dc'), `${label}: message panel should use the cream-dark surface`);
+  assert(html.includes('white-space:pre-wrap'), `${label}: message panel should preserve whitespace`);
   const footerMarker = 'Nairobi · Kenya</div>';
   const footerAt = html.lastIndexOf(footerMarker);
   assert(footerAt !== -1, `${label}: HTML footer should include Nairobi · Kenya`);
@@ -339,7 +351,7 @@ try {
   assertDesignedHtml(captured.body.htmlContent, 'designed HTML');
   assert(typeof captured.body.textContent === 'string' && captured.body.textContent.trim().length > 0, 'textContent must be non-empty');
   assert(captured.body.htmlContent.includes('overflow-wrap:anywhere'), 'long values should wrap safely');
-  assert(captured.body.textContent.includes('01 / Incoming Message'), 'plain text should include the incoming heading');
+  assert(captured.body.textContent.includes('01 / A new conversation.'), 'plain text should include the correspondence heading');
   assert(captured.body.textContent.includes('Nairobi · Kenya'), 'plain text should include the footer location');
   console.log('ok  Brevo API success, replyTo, and HTML escaping');
 
