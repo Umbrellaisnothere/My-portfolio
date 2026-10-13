@@ -97,11 +97,23 @@ function validatePayload(body) {
   };
 }
 
+function firstNameFrom(name) {
+  const first = asTrimmedString(name).split(/\s+/)[0] || 'Visitor';
+  return first.slice(0, 40);
+}
+
+function buildMailtoHref(email, subject) {
+  const safeEmail = withoutHeaderBreaks(email);
+  const safeSubject = withoutHeaderBreaks(subject || 'Portfolio Contact');
+  return `mailto:${safeEmail}?subject=${encodeURIComponent(safeSubject)}`;
+}
+
 function buildTextEmail(data) {
   const lines = [
-    'New portfolio contact form message',
+    'Keith Murimi / Portfolio / Contact',
+    '01 / Incoming Message',
     '',
-    `Name: ${data.name}`,
+    `From: ${data.name}`,
     `Email: ${data.email}`,
     `Subject: ${data.subject}`
   ];
@@ -110,26 +122,156 @@ function buildTextEmail(data) {
     lines.push(`Project type: ${data.projectType}`);
   }
 
-  lines.push('', 'Message:', data.message);
+  lines.push('', 'Message:', data.message, '', `Reply: ${data.email}`, '', 'Nairobi · Kenya');
   return lines.join('\n');
 }
 
 function buildHtmlEmail(data) {
+  const safeName = escapeHtml(data.name);
+  const safeEmail = escapeHtml(data.email);
+  const safeSubject = escapeHtml(data.subject);
+  const safeMessage = escapeHtml(data.message);
+  const safeFirstName = escapeHtml(firstNameFrom(data.name)).toUpperCase();
+  const mailtoHref = escapeHtml(buildMailtoHref(data.email, data.subject));
+  const wrap = 'word-wrap:break-word;overflow-wrap:anywhere;word-break:break-word;';
   const projectRow = data.projectType
-    ? `<p><strong>Project type:</strong> ${escapeHtml(data.projectType)}</p>`
+    ? `
+                      <tr>
+                        <td style="padding:0 0 24px 0;">
+                          <div style="margin:0 0 8px 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:1.4;letter-spacing:0.18em;text-transform:uppercase;color:#8a8680;">Project type</div>
+                          <div style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.45;color:#141414;${wrap}">${escapeHtml(data.projectType)}</div>
+                        </td>
+                      </tr>`
     : '';
 
-  return `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #141414;">
-      <h2 style="margin-bottom: 16px;">New portfolio contact form message</h2>
-      <p><strong>Name:</strong> ${escapeHtml(data.name)}</p>
-      <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
-      <p><strong>Subject:</strong> ${escapeHtml(data.subject)}</p>
-      ${projectRow}
-      <p><strong>Message:</strong></p>
-      <p style="white-space: pre-wrap;">${escapeHtml(data.message)}</p>
-    </div>
-  `;
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Incoming message</title>
+</head>
+<body bgcolor="#141414" style="margin:0;padding:0;background-color:#141414;-webkit-text-size-adjust:100%;">
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:#141414;font-size:1px;line-height:1px;">
+    Incoming portfolio contact from ${safeName}
+  </div>
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#141414" style="width:100%;background-color:#141414;margin:0;padding:0;">
+    <tr>
+      <td align="center" bgcolor="#141414" style="padding:24px 12px;background-color:#141414;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="width:100%;max-width:600px;border-collapse:collapse;table-layout:fixed;">
+          <tr>
+            <td width="6" bgcolor="#d71938" style="width:6px;background-color:#d71938;font-size:0;line-height:0;">&nbsp;</td>
+            <td width="100%" bgcolor="#0b0b0b" style="width:100%;background-color:#0b0b0b;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;table-layout:fixed;">
+                <tr>
+                  <td bgcolor="#0b0b0b" style="background-color:#0b0b0b;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;border-top:1px solid #3a3a3a;table-layout:fixed;">
+                      <tr>
+                        <td bgcolor="#0b0b0b" style="padding:36px 32px 32px 32px;background-color:#0b0b0b;">
+                          <div style="margin:0 0 6px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.4;letter-spacing:0.22em;text-transform:uppercase;color:#f5f1e8;">Keith Murimi</div>
+                          <div style="margin:0 0 36px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.4;letter-spacing:0.18em;text-transform:uppercase;color:#8a8680;">Portfolio / Contact</div>
+                          <div style="margin:0 0 10px 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:1.4;letter-spacing:0.28em;text-transform:uppercase;">
+                            <span style="color:#d71938;">01 /</span><span style="color:#c4bfb8;"> Incoming</span>
+                          </div>
+                          <div style="margin:0 0 16px 0;font-family:Arial,Helvetica,sans-serif;font-size:36px;line-height:1;font-weight:bold;letter-spacing:0.1em;text-transform:uppercase;color:#f5f1e8;">Message</div>
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td width="120" height="2" bgcolor="#d71938" style="width:120px;height:2px;background-color:#d71938;font-size:0;line-height:0;">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td style="padding:8px 0 0 108px;font-size:0;line-height:0;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                                  <tr>
+                                    <td width="6" height="6" bgcolor="#3d7eff" style="width:6px;height:6px;background-color:#3d7eff;font-size:0;line-height:0;">&nbsp;</td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="1" bgcolor="#d71938" style="height:1px;background-color:#d71938;font-size:0;line-height:0;">&nbsp;</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td bgcolor="#f5f1e8" style="padding:32px 32px 36px 32px;background-color:#f5f1e8;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;table-layout:fixed;">
+                      <tr>
+                        <td style="padding:0 0 24px 0;">
+                          <div style="margin:0 0 8px 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:1.4;letter-spacing:0.18em;text-transform:uppercase;color:#8a8680;">From</div>
+                          <div style="margin:0 0 6px 0;font-family:Arial,Helvetica,sans-serif;font-size:18px;line-height:1.35;font-weight:bold;color:#141414;${wrap}">${safeName}</div>
+                          <div style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.5;word-break:break-all;${wrap}">
+                            <a href="${mailtoHref}" style="color:#6f6a64;text-decoration:underline;">${safeEmail}</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:0 0 24px 0;">
+                          <div style="margin:0 0 8px 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:1.4;letter-spacing:0.18em;text-transform:uppercase;color:#8a8680;">Subject</div>
+                          <div style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.45;color:#141414;${wrap}">${safeSubject}</div>
+                        </td>
+                      </tr>
+                      ${projectRow}
+                      <tr>
+                        <td style="padding:0 0 24px 0;">
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                              <td valign="middle" style="vertical-align:middle;font-size:0;line-height:0;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                                  <tr>
+                                    <td width="72" height="1" bgcolor="#d71938" style="width:72px;height:1px;background-color:#d71938;font-size:0;line-height:0;">&nbsp;</td>
+                                  </tr>
+                                </table>
+                              </td>
+                              <td width="8" style="width:8px;font-size:0;line-height:0;">&nbsp;</td>
+                              <td valign="middle" width="5" height="5" bgcolor="#3d7eff" style="width:5px;height:5px;background-color:#3d7eff;font-size:0;line-height:0;vertical-align:middle;">&nbsp;</td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:0 0 24px 0;">
+                          <div style="margin:0 0 10px 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:1.4;letter-spacing:0.18em;text-transform:uppercase;color:#8a8680;">Message</div>
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#ebe6dc" style="width:100%;background-color:#ebe6dc;table-layout:fixed;">
+                            <tr>
+                              <td style="padding:20px 18px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.65;color:#141414;white-space:pre-wrap;${wrap}">${safeMessage}</td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:8px 0 0 0;">
+                          <a href="${mailtoHref}" style="display:inline-block;max-width:100%;background-color:#d71938;padding:14px 22px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.2;font-weight:bold;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;color:#f5f1e8;${wrap}">Reply to ${safeFirstName}</a>
+                          <span style="display:inline-block;width:12px;font-size:0;line-height:0;">&nbsp;</span>
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="display:inline-block;vertical-align:middle;">
+                            <tr>
+                              <td width="5" height="5" bgcolor="#3d7eff" style="width:5px;height:5px;background-color:#3d7eff;font-size:0;line-height:0;">&nbsp;</td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td bgcolor="#0b0b0b" style="padding:32px 32px 28px 32px;background-color:#0b0b0b;border-top:1px solid #3a3a3a;">
+                    <div style="margin:0 0 6px 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:1.4;letter-spacing:0.22em;text-transform:uppercase;color:#c4bfb8;">Keith Murimi</div>
+                    <div style="margin:0 0 4px 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:1.4;letter-spacing:0.16em;text-transform:uppercase;color:#6f6a64;">Portfolio / Contact</div>
+                    <div style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:1.4;letter-spacing:0.16em;text-transform:uppercase;color:#6f6a64;">Nairobi · Kenya</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
 }
 
 async function sendViaBrevo(data) {
