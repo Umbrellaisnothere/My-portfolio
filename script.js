@@ -591,7 +591,7 @@ let pinnedNavUntil = 0;
 let pinnedNavTimer = 0;
 
 function setHomeNavCurrent(sectionId, pinMs = 0) {
-  if (pinMs) {
+  if (pinMs && sectionId) {
     pinnedNavId = sectionId;
     pinnedNavUntil = Date.now() + pinMs;
     window.clearTimeout(pinnedNavTimer);
@@ -603,7 +603,7 @@ function setHomeNavCurrent(sectionId, pinMs = 0) {
   }
 
   document.querySelectorAll('.menu a, .side-drawer a').forEach((link) => {
-    if (navSectionIdFromLink(link) === sectionId) {
+    if (sectionId && navSectionIdFromLink(link) === sectionId) {
       link.setAttribute('aria-current', 'page');
     } else {
       link.removeAttribute('aria-current');
@@ -708,11 +708,15 @@ function initHashNavigation() {
 function initHomeSectionNav() {
   if (!document.getElementById('Projects')) return;
 
-  const sections = ['hero-section', 'Skills', 'Projects']
+  const navSections = HOME_NAV_SECTION_IDS
     .map((id) => document.getElementById(id))
     .filter(Boolean);
 
-  if (!sections.length) return;
+  const afterPrimary = ['blog-section', 'contact-cta']
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+
+  if (!navSections.length) return;
 
   const updateFromScroll = () => {
     if (Date.now() < pinnedNavUntil && pinnedNavId) {
@@ -722,11 +726,17 @@ function initHomeSectionNav() {
     const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 72;
     const activateBelow = headerHeight + Math.min(160, Math.max(72, window.innerHeight * 0.2));
     let current = 'hero-section';
-    sections.forEach((section) => {
+    navSections.forEach((section) => {
       if (section.getBoundingClientRect().top <= activateBelow) {
         current = section.id;
       }
     });
+
+    const pastPrimary = afterPrimary.some((section) => section.getBoundingClientRect().top <= activateBelow);
+    if (pastPrimary) {
+      current = null;
+    }
+
     setHomeNavCurrent(current);
   };
 
@@ -742,7 +752,7 @@ function initHomeSectionNav() {
       rootMargin: '-20% 0px -55% 0px'
     });
 
-    sections.forEach((section) => observer.observe(section));
+    navSections.concat(afterPrimary).forEach((section) => observer.observe(section));
   }
 }
 
