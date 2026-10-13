@@ -16,6 +16,34 @@ function assert(condition, message) {
   }
 }
 
+function assertDesignedHtml(html, label) {
+  assert(typeof html === 'string' && html.trim().length > 0, `${label}: htmlContent must be non-empty`);
+  assert(
+    html.includes('color:#d71938;">01 /</span>') && html.includes('> Incoming</span>'),
+    `${label}: hero should include the 01 / Incoming kicker markup`
+  );
+  assert(
+    html.includes('font-size:36px') && html.includes('>Message</div>'),
+    `${label}: hero should include the 36px Message heading`
+  );
+  assert(html.includes('#3d7eff'), `${label}: HTML should include the blue accent`);
+  assert(html.includes('bgcolor="#d71938"'), `${label}: HTML should include the red rail`);
+  assert(html.includes('bgcolor="#f5f1e8"'), `${label}: HTML should include the cream panel`);
+  assert(
+    html.includes('width="600"') && html.includes('max-width:600px'),
+    `${label}: HTML should use an approximately 600px table layout`
+  );
+  const footerMarker = 'Nairobi · Kenya</div>';
+  const footerAt = html.lastIndexOf(footerMarker);
+  assert(footerAt !== -1, `${label}: HTML footer should include Nairobi · Kenya`);
+  const footerNameAt = html.lastIndexOf('Keith Murimi', footerAt);
+  assert(footerNameAt !== -1 && footerNameAt < footerAt, `${label}: footer should include Keith Murimi`);
+  const footerHtml = html.slice(footerNameAt, footerAt + footerMarker.length);
+  assert(footerHtml.includes('Portfolio / Contact'), `${label}: footer should include Portfolio / Contact`);
+  assert(!footerHtml.toLowerCase().includes('.com'), `${label}: designed footer must not contain .com`);
+  assert(!/Murimi\.com/i.test(html), `${label}: designed identity must not use a .com suffix`);
+}
+
 function startServer(port, extraEnv = {}) {
   const child = spawn(process.execPath, ['server.js'], {
     cwd: ROOT,
@@ -308,7 +336,38 @@ try {
   assert(captured.body.htmlContent.includes('Hello &lt;b&gt;world&lt;/b&gt; &amp; &quot;quotes&quot;'), 'HTML message must be escaped');
   assert(!captured.body.htmlContent.includes('<script>'), 'raw script tags must not appear in HTML');
   assert(captured.body.textContent.includes(escapedMessage), 'text body should keep the visitor message');
+  assertDesignedHtml(captured.body.htmlContent, 'designed HTML');
+  assert(typeof captured.body.textContent === 'string' && captured.body.textContent.trim().length > 0, 'textContent must be non-empty');
+  assert(captured.body.htmlContent.includes('overflow-wrap:anywhere'), 'long values should wrap safely');
+  assert(captured.body.textContent.includes('01 / Incoming Message'), 'plain text should include the incoming heading');
+  assert(captured.body.textContent.includes('Nairobi · Kenya'), 'plain text should include the footer location');
   console.log('ok  Brevo API success, replyTo, and HTML escaping');
+
+  const longName = 'Sarah Alexandra Mwangi-Okonkwo';
+  const longEmail = 'sarah.alexandra.mwangi.okonkwo.inquiry@verylongdomainexample.com';
+  const longSubject = 'Website redesign collaboration for a multi-brand launch in Nairobi';
+  const longMessage = '<script>alert("x")</script>\n<b>hello</b>\nLine two with & special chars.\n' + 'A'.repeat(800);
+  const presentation = await request(brevoBase, '/send-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: longName,
+      email: longEmail,
+      subject: longSubject,
+      message: longMessage
+    })
+  });
+  assert(presentation.status === 200 && presentation.body.success === true, `presentation payload failed: ${presentation.status}`);
+  assert(mock.received.length === 2, `expected two Brevo calls, got ${mock.received.length}`);
+  const longCaptured = mock.received[1];
+  assert(longCaptured.body.replyTo.email === longEmail, 'long visitor email must remain replyTo');
+  assert(longCaptured.body.sender.email === 'verified-sender@example.com', 'sender identity must stay EMAIL_FROM');
+  assert(longCaptured.body.htmlContent.includes('&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;') || longCaptured.body.htmlContent.includes('&lt;script&gt;alert("x")&lt;/script&gt;'), 'long HTML message must be escaped');
+  assert(!longCaptured.body.htmlContent.includes('<script>'), 'raw script must not appear in long HTML');
+  assert(longCaptured.body.htmlContent.includes('overflow-wrap:anywhere'), 'long content must keep wrapping styles');
+  assertDesignedHtml(longCaptured.body.htmlContent, 'long-content HTML');
+  assert(longCaptured.body.textContent.includes(longMessage), 'plain text should keep the long visitor message');
+  console.log('ok  inbound email presentation cases');
   await stop(server);
   await stopHttp(mock.server);
 
